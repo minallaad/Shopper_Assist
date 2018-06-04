@@ -1,0 +1,58 @@
+Alpha Vantage api-key
+--------------------------------
+IZE8AOULCZXCVHZ5
+
+Time Zone Db
+--------------------------------
+I0YB924COP64
+
+Algorithmia
+--------------------------------
+
+
+
+bin/zookeeper-server-start.sh config/zookeeper.properties
+
+bin/kafka-server-start.sh config/server.properties
+
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic Sample
+
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic streams-wordcount-output
+
+
+#To check topics 
+bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+
+bin/kafka-console-consumer.sh --topic test --bootstrap-server localhost:9092 --from-beginning
+
+
+To purge the queue you can delete the topic:
+--------------------------------------------------------------------------
+
+bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic Sample
+
+then re-create it:
+------------------------------------------------------------------------------
+
+bin/kafka-topics.sh --create --zookeeper localhost:2181 \
+    --replication-factor 1 --partitions 1 --topic Sample
+
+
+
+Kill processes:
+----------------------------------
+sudo lsof -t -i:9001
+
+sudo kill -9 $(sudo lsof -t -i:9001)
+
+Google translate
+----------------------------------------
+export GOOGLE_APPLICATION_CREDENTIALS="/home/abhinab/WebstormProjects/stock_chart/translate.json"
+
+boxwood-bliss-199003
+
+echo 'export GOOGLE_APPLICATION_CREDENTIALS="/home/abhinab/WebstormProjects/stock_chart/translate.json"' >> ~/.bashrc
+
+
