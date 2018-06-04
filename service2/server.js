@@ -2,18 +2,11 @@
 
 var express = require('express');
 var kafka = require('kafka-node');
-var Translate = require('@google-cloud/translate');
 var app = express();
 
-
-
-const projectId = 'boxwood-bliss-199003';
-
-const translate = new Translate({
-    projectId: projectId,
-});
-
-const target = 'mr';
+const TOPIC_NAME = "Test";
+const SERVER_NAME = "B";
+const PORT_NUMBER = 8091;
 
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -35,63 +28,28 @@ producer.on('error', function (err) {
 })
 
 
-// app.get('/',function(req,res){
-//     res.json({greeting:'Kafka Producer'})
-// });
 
-app.listen(8091,function(){
-    console.log('Kafka producer running at 8091')
-    console.log('Server-B');
+app.listen(PORT_NUMBER,function(){
+    console.log('Kafka producer running at: '+PORT_NUMBER);
+    console.log(SERVER_NAME);
 })
 
 var payloads;
-var i = 0;
-
-
-// function requestFunc() {
-//     request('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=IZE8AOULCZXCVHZ5', function (error, response, body) {
-//         if (!error && response.statusCode == 200) {
-//             var info = JSON.parse(body["Meta Data"])
-//         }
-//         // console.log(info);
-//         var time = JSON.stringify(info);
-//         console.log(time);
-//         payloads = [
-//             {topic: 'Sample', messages: time, partition: 0}
-//         ];
-//         producer.send(payloads, function (err, data) {
-//             // console.log(data);
-//         });
-//
-//     })
-// }
-//
-// setInterval(requestFunc,11000);
-
-
+var KeyedMessage = kafka.KeyedMessage ;
 var stdin = process.openStdin();
 
 stdin.addListener("data", function(d) {
 
-    var messsage =  d.toString().trim();
 
-    translate
-        .translate(messsage, target)
-        .then(results => {
-            var translation = results[0];
-            payloads = [
-                {topic: 'Sample', messages: translation, partition: 1}
-            ];
-            producer.send(payloads, function (err, data) {
-                // console.log(data);
-            });
+    var messsage =  "Server "+SERVER_NAME+":- "+d.toString().trim();
 
-        })
-        .catch(err => {
-            console.error('ERROR:', err);
-        });
-
-
+    var km = new KeyedMessage(SERVER_NAME, messsage);
+    payloads = [
+        {topic: TOPIC_NAME, messages: km, partition: 0}
+    ];
+    producer.send(payloads, function (err, data) {
+        // console.log(data);
+    });
 
 });
 
@@ -99,7 +57,7 @@ var kafka = require('kafka-node'),
     Consumer = kafka.Consumer,
     client = new kafka.Client(),
     consumer = new Consumer(client,
-        [{ topic: 'Sample', offset: 0 , partition:0}],
+        [{ topic: TOPIC_NAME, offset: 0, partition:0}],
         {
             autoCommit: false
         }
@@ -107,8 +65,9 @@ var kafka = require('kafka-node'),
 
 
 
+
 consumer.on('message', function (message) {
-    console.log("Server A:-  "+message.value);
+    console.log(message.value);
 });
 
 consumer.on('error', function (err) {
