@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
+
 var Producer = kafka.Producer,
     client = new kafka.Client(),
     producer = new Producer(client);
@@ -29,10 +30,13 @@ producer.on('error', function (err) {
 
 
 
-app.listen(PORT_NUMBER,function(){
-    console.log('Kafka producer running at: '+PORT_NUMBER);
-    console.log(SERVER_NAME);
-})
+// app.listen(PORT_NUMBER,function(){
+//     console.log('Kafka producer running at: '+PORT_NUMBER);
+//     console.log(SERVER_NAME);
+// })
+
+
+
 
 var payloads;
 var KeyedMessage = kafka.KeyedMessage ;
@@ -65,10 +69,21 @@ var kafka = require('kafka-node'),
 
 
 
+console.log("Server Running At:localhost:"+PORT_NUMBER);
+var io = require('socket.io').listen(app.listen(PORT_NUMBER));
 
-consumer.on('message', function (message) {
-    console.log(message.value);
+io.sockets.on("connection",function(socket){
+    console.log(PORT_NUMBER+" Connected")
+    consumer.on('message', function (message) {
+        io.sockets.emit(message.value);
+        console.log(message.value);
+
+        // io.emit('message',message.value);
+
+    });
 });
+
+
 
 consumer.on('error', function (err) {
     console.log('Error:', err);

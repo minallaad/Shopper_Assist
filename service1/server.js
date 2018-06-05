@@ -3,6 +3,8 @@
 var express = require('express');
 var kafka = require('kafka-node');
 var app = express();
+// let http = require('http').Server(app);
+// let io = require('socket.io')(http);
 
 const TOPIC_NAME = "Test";
 const SERVER_NAME = "A";
@@ -13,6 +15,13 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
+
+// io.on('connection',(socket)=>{
+//     console.log('User  A Connected');
+//     socket.on('disconnect',function(){
+//         console.log('User A disconnected');
+//     });
+// });
 
 var Producer = kafka.Producer,
     client = new kafka.Client(),
@@ -29,10 +38,7 @@ producer.on('error', function (err) {
 
 
 
-app.listen(PORT_NUMBER,function(){
-    console.log('Kafka producer running at: '+PORT_NUMBER);
-    console.log(SERVER_NAME);
-})
+
 
 var payloads;
 var KeyedMessage = kafka.KeyedMessage ;
@@ -66,9 +72,29 @@ var kafka = require('kafka-node'),
 
 
 
-consumer.on('message', function (message) {
-    console.log(message.value);
+
+
+console.log("Server Running At:localhost:"+PORT_NUMBER);
+var io = require('socket.io').listen(app.listen(PORT_NUMBER));
+
+io.sockets.on("connection",function(socket) {
+    console.log(PORT_NUMBER + " Connected")
+
+
+    consumer.on('message', function (message) {
+        io.sockets.emit(message.value);
+        console.log(message.value);
+
+        // io.emit('message',message.value);
+
+    });
+
 });
+
+
+
+
+
 
 consumer.on('error', function (err) {
     console.log('Error:', err);
