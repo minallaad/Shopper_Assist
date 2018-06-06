@@ -1,10 +1,11 @@
 'use strict';
 
 var express = require('express');
-var kafka = require('kafka-node');
+var kafka = require('no-kafka');
 var app = express();
+let http = require('http').Server(app);
 // let http = require('http').Server(app);
-// let io = require('socket.io')(http);
+let io = require('socket.io')(http);
 
 const TOPIC_NAME = "Test";
 const SERVER_NAME = "A";
@@ -16,92 +17,86 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
-// io.on('connection',(socket)=>{
-//     console.log('User  A Connected');
-//     socket.on('disconnect',function(){
-//         console.log('User A disconnected');
-//     });
-// });
+//Producer
+    var producer = new kafka.Producer({
+        connectionString: 'kafka://localhost:9092',
+        clientId: 'no-kafka-client'
+    });
 
-var Producer = kafka.Producer,
-    client = new kafka.Client(),
-    producer = new Producer(client);
+//Producer Input segment
 
-producer.on('ready', function () {
-    console.log('Producer is ready');
-});
-
-producer.on('error', function (err) {
-    console.log('Producer is in error state');
-    console.log(err);
-})
-
-
-
-
-
-var payloads;
-var KeyedMessage = kafka.KeyedMessage ;
 var stdin = process.openStdin();
 
 stdin.addListener("data", function(d) {
 
 
-    var messsage =  "Server "+SERVER_NAME+":- "+d.toString().trim();
+    var message =  "Server "+SERVER_NAME+":- "+d.toString().trim();
 
-    var km = new KeyedMessage(SERVER_NAME, messsage);
-    payloads = [
-                {topic: TOPIC_NAME, messages: km, partition: 0}
-                ];
-    producer.send(payloads, function (err, data) {
-                // console.log(data);
-            });
+    // var km = new KeyedMessage(SERVER_NAME, messsage);
+    var payloads =
+                {
+                    topic: TOPIC_NAME,
+                        partition: 0,
+                        message: {
+                            key:SERVER_NAME,
+                            value:message
+                        }
+                    }
+
+    return producer.init().then(function(){
+        return producer.send(payloads);
+    })
+        .then(function (result) {
+            /*
+            [ { topic: 'kafka-test-topic', partition: 0, offset: 353 } ]
+            */
+        });
+    // producer.send(payloads);
 
 });
 
-var kafka = require('kafka-node'),
-    Consumer = kafka.Consumer,
-    client = new kafka.Client(),
-    consumer = new Consumer(client,
-        [{ topic: TOPIC_NAME, offset: 0, partition:0}],
-        {
-            autoCommit: false
-        }
-    );
 
 
-
-
-
-
-console.log("Server Running At:localhost:"+PORT_NUMBER);
-var io = require('socket.io').listen(app.listen(PORT_NUMBER));
+//Socket Connection Initialize
 
 io.sockets.on("connection",function(socket) {
     console.log(PORT_NUMBER + " Connected")
 
-
-    consumer.on('message', function (message) {
-        io.sockets.emit(message.value);
-        console.log(message.value);
-
-        // io.emit('message',message.value);
-
+    socket.on('disconnect', function(){
+        console.log(PORT_NUMBER + " Disconnected");
     });
+
 
 });
 
+//Consumer Message Adding System
+
+http.listen(PORT_NUMBER,() =>{
+    console.log('started on port '+PORT_NUMBER);
+    var kafka = require('no-kafka'),
+        Consumer = kafka.SimpleConsumer,
+        // client = new kafka.Client(),
+        consumer = new Consumer({
+            connectionString: 'kafka://localhost:9092',
+            clientId: 'no-kafka-client'
+        });
+
+    var dataHandler = function (messageSet, topic) {
+        messageSet.forEach(function (m) {
+            console.log(topic, m.offset, m.message.value.toString('utf8'));
+            io.emit('message', m.message.value.toString('utf8'));
+        });
+    };
+    return consumer.init().then(function () {
+        // Subscribe partitons 0 and 1 in a topic:
+        var v1= consumer.subscribe(TOPIC_NAME, 0, dataHandler);
+        // var v2= consumer.subscribe('Sample', [0, 1], dataHandler);
+        var arr=[];
+        arr.push([v1]);
+        console.log("val:"+arr);
+        return arr;
+
+    });
 
 
-
-
-
-consumer.on('error', function (err) {
-    console.log('Error:', err);
-})
-
-consumer.on('offsetOutOfRange', function (err) {
-    console.log('offsetOutOfRange:', err);
-})
-
-
+});
