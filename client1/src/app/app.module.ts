@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
 import {AppRoutingModule} from './app-routing.module';
 import {ChartService} from "./chart.services";
-
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -18,7 +18,8 @@ import {ChartService} from "./chart.services";
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
     ChartService

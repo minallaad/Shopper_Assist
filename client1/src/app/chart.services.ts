@@ -16,7 +16,7 @@ export class ChartService {
       this.socket.on('message', (data) => {
 
         observer.next(data);
-        console.log(data);
+        console.log(typeof  data);
       });
       return () => {
         this.socket.disconnect();
