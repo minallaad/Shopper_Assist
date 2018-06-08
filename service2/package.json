@@ -12,8 +12,9 @@
     "kafka-node": "^2.6.1",
     "moment-timezone": "^0.5.17",
     "node-datetime": "^2.0.6",
-    "pubnub": "^4.20.3",
+    "pubnub": "^4.21.0",
     "request": "^2.87.0",
+    "shelljs": "^0.8.2",
     "socket.io": "^1.7.4"
   }
 }

@@ -3,11 +3,12 @@
 var express = require('express');
 var kafka = require('no-kafka');
 var app = express();
-let http = require('http').Server(app);
 const cors = require('cors');
 var shell = require('shelljs');
 
-// let http = require('http').Server(app);
+
+
+let http = require('http').Server(app);
 let io = require('socket.io')(http);
 
 const TOPIC_NAME = "Test";
@@ -17,19 +18,18 @@ const PORT_NUMBER = 8091;
 
 //Command to create topic
 
-shell.exec('/home/minal/Downloads/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + TOPIC_NAME);
+shell.exec('~/Softwares/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + TOPIC_NAME);
 
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
-
-
 app.use(cors({
     origin: 'http://localhost:4200',
     credentials: true
 }));
+
 //Producer
 var producer = new kafka.Producer({
     connectionString: 'kafka://localhost:9092',
@@ -72,14 +72,14 @@ app.post('/postData', function (req, res) {
 //
 //     // var km = new KeyedMessage(SERVER_NAME, messsage);
 //     var payloads =
-//         {
-//             topic: TOPIC_NAME,
-//             partition: 0,
-//             message: {
-//                 key:SERVER_NAME,
-//                 value:message
-//             }
-//         }
+//                 {
+//                     topic: TOPIC_NAME,
+//                         partition: 0,
+//                         message: {
+//                             key:SERVER_NAME,
+//                             value:message
+//                         }
+//                     }
 //
 //     return producer.init().then(function(){
 //         return producer.send(payloads);
@@ -92,7 +92,7 @@ app.post('/postData', function (req, res) {
 //     // producer.send(payloads);
 //
 // });
-//
+
 
 
 //Socket Connection Initialize
