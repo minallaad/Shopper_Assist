@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 
 export class ChartService {
-  private url = 'http://localhost:8091';
+  private url = 'http://localhost:8092';
   private socket;
 
   sendMessage(message) {
@@ -16,7 +16,7 @@ export class ChartService {
       this.socket.on('message', (data) => {
 
         observer.next(data);
-        console.log(data);
+        console.log(typeof  data);
       });
       return () => {
         this.socket.disconnect();

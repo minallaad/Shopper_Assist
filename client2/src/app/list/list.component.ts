@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ChartService} from "../chart.services";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -14,30 +13,26 @@ export class ListComponent implements OnInit {
 
   connection:any;
   list =[];
-  items = [];
   ngOnInit() {
-    this.connection = this.chartService.getMessage().subscribe(message =>{
-      console.log(message);
-      console.log(typeof message);
-      // message.forEach(msg=> {
-      //   this.list.push(msg);
-      // })
 
+    console.log("in list");
+    this.connection = this.chartService.getMessage().subscribe(message =>{
+        console.log(message);
+        console.log(typeof  message);
+        this.list = message.toString().split(',');
     })
   }
-
   addItemtoList(item:String)
   {
     this.list.push(item);
 
-    this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
+    this.http.post('http://localhost:8091/postData', JSON.stringify(this.list), {
       headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
     })
-      .subscribe(data => {
-        console.log(data);
-      });
+    .subscribe(data => {
+      console.log(data);
+    });
 
   }
-
 
 }
