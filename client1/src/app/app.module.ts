@@ -6,7 +6,8 @@ import { ListComponent } from './list/list.component';
 import {AppRoutingModule} from './app-routing.module';
 import {ChartService} from "./chart.services";
 import { HttpClientModule } from '@angular/common/http';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material';
 
 
 
@@ -19,7 +20,9 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatButtonModule
   ],
   providers: [
     ChartService
