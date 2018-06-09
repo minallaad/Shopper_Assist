@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ChartService} from "../chart.services";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {GeoJSON} from "geojson";
+
 
 @Component({
   selector: 'app-list',
@@ -25,7 +25,7 @@ export class ListComponent implements OnInit {
   addItemtoList(item:string)
   {
     this.list.push(item);
-    this.http.post('http://localhost:8092/postData', JSON.toString(this.list), {
+    this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
       headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
     })
     .subscribe(data => {
