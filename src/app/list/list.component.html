@@ -1,0 +1,23 @@
+
+
+
+
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+      Toggle extra
+   </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <section><form class="example-form">
+      <!--<mat-form-field class="example-full-width">-->
+      <input matInput placeholder="Enter Item" #box (keyup.enter)="addItemtoList(box.value);"  >
+      <!--</mat-form-field>-->
+
+    </form>
+      <div *ngFor="let item of list"><input type="checkbox" ng-model ="item.value"  />{{item}} </div></section>
+    <button type="button" mat-button (click)="drawer.toggle()">
+      Toggle sidenav
+    </button>
+  </div>
+
+</mat-drawer-container>

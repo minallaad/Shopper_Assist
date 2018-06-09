@@ -1,7 +1,0 @@
-<form class="example-form">
-  <!--<mat-form-field class="example-full-width">-->
-  <input matInput placeholder="Enter Item" #box (keyup.enter)="addItemtoList(box.value);"  >
-  <!--</mat-form-field>-->
-
-</form>
-<div *ngFor="let item of list"><input type="checkbox" ng-model ="item.value"  />{{item}} </div>
