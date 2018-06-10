@@ -56,3 +56,10 @@ boxwood-bliss-199003
 echo 'export GOOGLE_APPLICATION_CREDENTIALS="/home/abhinab/WebstormProjects/stock_chart/translate.json"' >> ~/.bashrc
 
 
+----------------------------------
+To generate a new component
+
+ ng generate component <name>
+
+
+

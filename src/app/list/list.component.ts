@@ -16,11 +16,11 @@ export class ListComponent implements OnInit {
   list =[];
   ngOnInit() {
     console.log("in list");
-    this.connection = this.chartService.getMessage().subscribe(message =>{
-        console.log(message);
-        console.log(typeof  message);
-        this.list = message.toString().split(',');
-    })
+    // this.connection = this.chartService.getMessage().subscribe(message =>{
+    //     console.log(message);
+    //     console.log(typeof  message);
+    //     this.list = message.toString().split(',');
+    // })
   }
   addItemtoList(item:string)
   {

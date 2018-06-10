@@ -8,13 +8,19 @@ import {ChartService} from "./chart.services";
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material';
+import { HeaderComponent } from './header/header.component';
+import { MessengerComponent } from './messenger/messenger.component';
+import { LoginComponent } from './login/login.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListComponent
+    ListComponent,
+    HeaderComponent,
+    MessengerComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
