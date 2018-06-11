@@ -11,6 +11,9 @@ import { MatSidenavModule } from '@angular/material';
 import { HeaderComponent } from './header/header.component';
 import { MessengerComponent } from './messenger/messenger.component';
 import { LoginComponent } from './login/login.component';
+import { StoresComponent } from './stores/stores.component';
+import { RecipesComponent } from './recipes/recipes.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -20,7 +23,10 @@ import { LoginComponent } from './login/login.component';
     ListComponent,
     HeaderComponent,
     MessengerComponent,
-    LoginComponent
+    LoginComponent,
+    StoresComponent,
+    RecipesComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

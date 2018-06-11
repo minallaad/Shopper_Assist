@@ -1,3 +1,21 @@
-<p>
-  messenger works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+         <section  class="fixed-bottom">
+          <form class="example-form ">
+            <!--<mat-form-field class="example-full-width">-->
+            <input matInput placeholder=" " #box (keyup.enter)="sendMessage(box.value);"  class="form-control" >
+            <!--</mat-form-field>-->
+          </form>
+          <br>
+          <!--<div *ngFor="let item of list">-->
+            <!--<ul class="list-group">-->
+              <!--<li class="list-group-item" ng-model ="item.value" (click)="removeFromlist(item)"  >-->
+                <!--<h4>{{item}}</h4>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+        </section>
+      </div>
+    </div>
+  </div>

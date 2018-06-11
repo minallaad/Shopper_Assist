@@ -41,7 +41,33 @@ app.use(cors({
 app.post('/postData', function (req, res) {
     // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1/*');
     res.send(req.body)
-    console.log(req.body);
+    JSON.stringify
+    var message = JSON.stringify(req.body);
+    var payloads =
+        {
+            topic: TOPIC_NAME,
+            partition: 0,
+            message: {
+                key:SERVER_NAME,
+                value: message
+            }
+        }
+
+    return producer.init().then(function(){
+        return producer.send(payloads);
+    })
+        .then(function (result) {
+            /*
+            [ { topic: 'kafka-test-topic', partition: 0, offset: 353 } ]
+            */
+        });
+    // producer.send(payloads);
+})
+
+app.post('/postMessage', function (req, res) {
+    // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1/*');
+    res.send(req.body)
+
     var message = req.body;
     var payloads =
         {
@@ -49,7 +75,7 @@ app.post('/postData', function (req, res) {
             partition: 0,
             message: {
                 key:SERVER_NAME,
-                value:message
+                value:message.toString('utf8')
             }
         }
 
@@ -123,7 +149,7 @@ http.listen(PORT_NUMBER,() =>{
 
     var dataHandler = function (messageSet, topic) {
         messageSet.forEach(function (m) {
-            console.log(topic, m.offset, m.message.value.toString('utf8'));
+             console.log(topic, m.offset, m.message.value.toString('utf8'));
             io.emit('message', m.message.value.toString('utf8'));
         });
     };
