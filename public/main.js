@@ -95,7 +95,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<router-outlet></router-outlet>\n<app-footer></app-footer>"
+module.exports = "<app-header></app-header>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -357,7 +357,7 @@ module.exports = ".navbar-header {\n    float: left;\n    padding: 15px;\n    te
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n    <div class=\"navbar-header\">\n      <a href=\"#\" class=\"navbar-brand\">\n        Grocery Assist\n      </a>\n    </div>\n\n    <div class=\"navbar-default\">\n      <ul class=\"nav nav-tabs\">\n        <li><a [routerLink]=\"['/Messenger']\">\n            <span class=\"glyphicon glyphicon-comment\"></span> Messenger\n        </a>\n        </li>\n        <li><a [routerLink]=\"['/list']\">My List</a></li>\n        <li><a [routerLink]=\"['/Stores-near-me']\">Stores</a></li>\n        <li><a [routerLink]=\"['/Recipe']\">Recipes</a></li>\n\n        <!--<li class=\"dropdown\">-->\n          <!--<a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\"> My Profile <span class=\"caret\"></span></a>-->\n          <!--<ul class=\"dropdown-menu\">-->\n            <!--<li><a href=\"#\">Account Settings</a></li>-->\n            <!--<li><a href=\"#\">Logout</a></li>-->\n          <!--</ul>-->\n        <!--</li>-->\n      </ul>\n    </div>\n\n  </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-default\">\n  <div class=\"container-fluid\">\n    <div class=\"navbar-header\">\n      <a href=\"#\" class=\"navbar-brand\">\n        Grocery Assist\n      </a>\n    </div>\n\n    <div class=\"navbar-default\">\n      <ul class=\"nav nav-tabs\">\n        <li>\n          <a [routerLink]=\"['/Messenger']\">\n            <span class=\"glyphicon glyphicon-comment\"></span> Messenger\n          </a>\n        </li>\n        <li><a [routerLink]=\"['/list']\">My List</a></li>\n        <li><a [routerLink]=\"['/Stores-near-me']\">Stores</a></li>\n        <li><a [routerLink]=\"['/Recipe']\">Recipes</a></li>\n\n        <!--<li class=\"dropdown\">-->\n          <!--<a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\"> My Profile <span class=\"caret\"></span></a>-->\n          <!--<ul class=\"dropdown-menu\">-->\n            <!--<li><a href=\"#\">Account Settings</a></li>-->\n            <!--<li><a href=\"#\">Logout</a></li>-->\n          <!--</ul>-->\n        <!--</li>-->\n      </ul>\n    </div>\n\n  </div>\n</nav>"
 
 /***/ }),
 
@@ -420,7 +420,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"col-md-12\">\n\n\n  <div class=\"example-sidenav-content\">\n    <section>\n      <form class=\"example-form\">\n      <!--<mat-form-field class=\"example-full-width\">-->\n        <input matInput placeholder=\"Enter Item\" #box (keyup.enter)=\"addItemtoList(box.value);\"  class=\"form-control\" >\n      <!--</mat-form-field>-->\n    </form>\n      <br>\n      <div *ngFor=\"let item of list\">\n        <ul class=\"list-group\">\n          <li class=\"list-group-item\" *ngIf=\"item.isPresent\" ng-model =\"item.name\" (click)=\"removeFromlist(item.name)\"  >\n            <h4><b>{{item.name}}</b></h4>\n          </li>\n          <li class=\"list-group-item\" ng-model =\"item.name\" *ngIf=\"!item.isPresent\" (click)=\"addItemtoList(item.name)\"  >\n            <s> <b><h4 >{{item.name}}</h4></b></s>\n          </li>\n        </ul>\n      </div>\n    </section>\n    </div>\n</div>\n  </div>\n\n"
+module.exports = "<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"col-md-12\">\n    <div class=\"example-sidenav-content\">\n      <section>\n        <form class=\"example-form\">\n        <!--<mat-form-field class=\"example-full-width\">-->\n          <input matInput placeholder=\"Enter Item\" #box (keyup.enter)=\"addItemtoList(box.value);\"  class=\"form-control\" >\n        <!--</mat-form-field>-->\n      </form>\n        <br>\n        <div *ngFor=\"let item of list\">\n          <ul class=\"list-group\">\n            <li class=\"list-group-item\" *ngIf=\"item.isPresent\" ng-model =\"item.name\" (click)=\"removeFromlist(item.name)\"  >\n              <h4><b>{{item.name}}</b></h4>\n            </li>\n            <li class=\"list-group-item\" ng-model =\"item.name\" *ngIf=\"!item.isPresent\" (click)=\"addItemtoList(item.name)\"  >\n              <s> <b><h4 >{{item.name}}</h4></b></s>\n            </li>\n          </ul>\n        </div>\n      </section>\n      </div>\n  </div>\n</div>\n</div>\n\n"
 
 /***/ }),
 
