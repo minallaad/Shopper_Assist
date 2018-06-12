@@ -28,8 +28,9 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 app.use(cors({
-    origin: 'http://localhost:4200',
-    credentials: true
+    // origin: 'http://*',
+    credentials: true,
+    origin: true
 }));
 
 //Producer

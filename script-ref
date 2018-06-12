@@ -15,6 +15,10 @@ bin/zookeeper-server-start.sh config/zookeeper.properties
 
 bin/kafka-server-start.sh config/server.properties
 
+
+ln -s /etc/init.d/kafkastart.sh /etc/rc2.d/
+ln -s /etc/init.d/kafkastart.sh /etc/rc1.d/
+
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic Test
 
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic streams-wordcount-output
@@ -31,7 +35,7 @@ bin/kafka-console-consumer.sh --topic test --bootstrap-server localhost:9092 --f
 To purge the queue you can delete the topic:
 --------------------------------------------------------------------------
 
-bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic Sample
+bin/kafka-topics.sh --zookeeper 10.138.0.2:2181 --delete --topic Sample
 
 then re-create it:
 ------------------------------------------------------------------------------

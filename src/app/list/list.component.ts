@@ -1,7 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {ChartService} from "../chart.services";
+import {KafkaService} from "../services/kafka.services";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Item } from  '/home/minal/Documents/grocery_assisst/src/app/list/list.model';
+// import { Item } from 'list.component.spec';
+import { AuthService } from '../services/auth.service';
+
+class Item{
+    public name:string;
+    public isPresent:boolean;
+
+    constructor(name: string , isPresent:boolean)
+    {
+        this.name = name;
+        this.isPresent =isPresent;
+    }
+}
+
 
 @Component({
   selector: 'app-list',
@@ -10,7 +23,15 @@ import { Item } from  '/home/minal/Documents/grocery_assisst/src/app/list/list.m
 })
 export class ListComponent implements OnInit {
 
-  constructor(private chartService: ChartService,private  http:HttpClient) { }
+  constructor(private chartService: KafkaService,private  http:HttpClient,private auth: AuthService) {
+      // Comment out this method call if using
+      // hash-based routing
+      auth.handleAuthentication();
+
+      // Uncomment this method call if using
+      // hash-based routing
+      // auth.handleAuthenticationWithHash();
+  }
 
   connection:any;
   list : Item[] = [];

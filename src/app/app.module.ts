@@ -4,16 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
 import {AppRoutingModule} from './app-routing.module';
-import {ChartService} from "./chart.services";
+import {KafkaService} from "./services/kafka.services";
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material';
 import { HeaderComponent } from './header/header.component';
 import { MessengerComponent } from './messenger/messenger.component';
-import { LoginComponent } from './login/login.component';
 import { StoresComponent } from './stores/stores.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { FooterComponent } from './footer/footer.component';
+import { AuthService } from './services/auth.service';
 
 
 
@@ -23,10 +23,9 @@ import { FooterComponent } from './footer/footer.component';
     ListComponent,
     HeaderComponent,
     MessengerComponent,
-    LoginComponent,
     StoresComponent,
     RecipesComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +36,8 @@ import { FooterComponent } from './footer/footer.component';
     MatSidenavModule
   ],
   providers: [
-    ChartService
+    KafkaService,
+      AuthService
   ],
   bootstrap: [AppComponent]
 })

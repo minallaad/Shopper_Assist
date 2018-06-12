@@ -7,15 +7,15 @@
     </div>
 
     <div class="navbar-default">
-      <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs">
         <li>
-          <a [routerLink]="['/Messenger']">
+          <a [routerLink]="['/Messenger'] "*ngIf="auth.isAuthenticated()">
             <span class="glyphicon glyphicon-comment"></span> Messenger
           </a>
         </li>
-        <li><a [routerLink]="['/list']">My List</a></li>
-        <li><a [routerLink]="['/Stores-near-me']">Stores</a></li>
-        <li><a [routerLink]="['/Recipe']">Recipes</a></li>
+        <li><a [routerLink]="['/list']" *ngIf="auth.isAuthenticated()">My List</a></li>
+        <li><a [routerLink]="['/Stores-near-me']" *ngIf="auth.isAuthenticated()">Stores</a></li>
+        <li><a [routerLink]="['/Recipe']" *ngIf="auth.isAuthenticated()">Recipes</a></li>
 
         <!--<li class="dropdown">-->
           <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#"> My Profile <span class="caret"></span></a>-->
