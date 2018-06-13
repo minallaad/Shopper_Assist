@@ -4,15 +4,15 @@ import { ListComponent } from './list/list.component';
 import {MessengerComponent} from "./messenger/messenger.component";
 import {StoresComponent} from "./stores/stores.component";
 import {RecipesComponent} from "./recipes/recipes.component";
-
+import {AuthGuard} from "./services/auth.guard";
 
 const appRoutes: Routes = [
 
   // {path: '', redirectTo: 'list', pathMatch: 'full'},
-  {path: 'list', component: ListComponent },
-  {path: 'Messenger', component: MessengerComponent },
-  {path: 'Stores-near-me', component: StoresComponent },
-  {path: 'Recipe', component: RecipesComponent }
+  {path: 'list', component: ListComponent,canActivate: [AuthGuard] },
+  {path: 'Messenger', component: MessengerComponent,canActivate: [AuthGuard] },
+  {path: 'Stores-near-me', component: StoresComponent,canActivate: [AuthGuard] },
+  {path: 'Recipe', component: RecipesComponent,canActivate: [AuthGuard] }
 ];
 
 

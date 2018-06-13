@@ -4,11 +4,16 @@ import { Router, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import Auth0Lock from 'auth0-lock';
 
+
 @Injectable()
 export class AuthService {
 
     lock = new Auth0Lock(AUTH_CONFIG.clientID, AUTH_CONFIG.domain, {
-        autoclose: true,
+        autoclose: true,    allowAutocomplete: true, allowShowPassword: true,
+        theme: {
+            logo: 'https://www.logoground.com/uploads/201687052016-10-03397169790.jpg'
+        },
+        // allowedConnections: ['facebook','Username-Password-Authentication'],
         auth: {
             redirectUrl: AUTH_CONFIG.callbackURL,
             responseType: 'token id_token',
@@ -16,7 +21,25 @@ export class AuthService {
             params: {
                 scope: 'openid'
             }
-        }
+        },
+        socialButtonStyle: 'large',
+        additionalSignUpFields: [{
+        //     name: "address",
+        //     placeholder: "enter your address",
+        //     // The following properties are optional
+        //     icon: "https://example.com/assests/address_icon.png",
+        //     prefill: "street 123",
+        //     validator: function(address) {
+        //         return {
+        //             valid: address.length >= 10,
+        //             hint: "Must have 10 or more chars" // optional
+        //         };
+        //     }
+        // },
+        //     {
+                name: "full_name",
+                placeholder: "Enter your full name"
+            }]
     });
 
     constructor(public router: Router) {}
@@ -30,6 +53,18 @@ export class AuthService {
     public handleAuthentication(): void {
 
         this.lock.on('authenticated', (authResult) => {
+            this.lock.getUserInfo(authResult.accessToken, function(error, profile) {
+                if (error) {
+                    // Handle error
+                    return;
+                }
+            //
+            //     document.getElementById('nick').textContent = profile.nickname;
+            //
+            //     localStorage.setItem('accessToken', authResult.accessToken);
+                localStorage.setItem('profile', JSON.stringify(profile));
+            });
+            console.log(JSON.parse(localStorage.getItem('profile')));
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
 
@@ -73,6 +108,8 @@ export class AuthService {
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expiresAt);
+        // localStorage.setItem('id',authResult.id);
+        console.log(authResult.idToken);
     }
 
     public logout(): void {

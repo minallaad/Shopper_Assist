@@ -14,7 +14,7 @@ import { StoresComponent } from './stores/stores.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { FooterComponent } from './footer/footer.component';
 import { AuthService } from './services/auth.service';
-
+import {AuthGuard} from "./services/auth.guard";
 
 
 @NgModule({
@@ -37,7 +37,8 @@ import { AuthService } from './services/auth.service';
   ],
   providers: [
     KafkaService,
-      AuthService
+      AuthService,
+      AuthGuard
   ],
   bootstrap: [AppComponent]
 })

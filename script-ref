@@ -11,9 +11,9 @@ Algorithmia
 
 
 
-bin/zookeeper-server-start.sh config/zookeeper.properties
+./bin/zookeeper-server-start.sh config/zookeeper.properties &
 
-bin/kafka-server-start.sh config/server.properties
+./bin/kafka-server-start.sh config/server.properties &
 
 
 ln -s /etc/init.d/kafkastart.sh /etc/rc2.d/

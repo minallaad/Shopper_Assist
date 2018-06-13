@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 
 export class KafkaService {
-  private url = 'http://localhost:8092';
+  private url = 'http://35.233.233.84:8092';
   private socket;
 
   sendMessage(message) {
