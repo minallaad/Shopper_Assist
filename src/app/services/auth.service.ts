@@ -19,27 +19,28 @@ export class AuthService {
             responseType: 'token id_token',
             audience: `https://${AUTH_CONFIG.domain}/userinfo`,
             params: {
-                scope: 'openid'
+                scope: 'openid profile email user_metadata app_metadata'
             }
         },
         socialButtonStyle: 'large',
-        additionalSignUpFields: [{
-        //     name: "address",
-        //     placeholder: "enter your address",
-        //     // The following properties are optional
-        //     icon: "https://example.com/assests/address_icon.png",
-        //     prefill: "street 123",
-        //     validator: function(address) {
-        //         return {
-        //             valid: address.length >= 10,
-        //             hint: "Must have 10 or more chars" // optional
-        //         };
-        //     }
-        // },
-        //     {
-                name: "full_name",
-                placeholder: "Enter your full name"
-            }]
+        // additionalSignUpFields: [{
+        // //     name: "address",
+        // //     placeholder: "enter your address",
+        // //     // The following properties are optional
+        // //     icon: "https://example.com/assests/address_icon.png",
+        // //     prefill: "street 123",
+        // //     validator: function(address) {
+        // //         return {
+        // //             valid: address.length >= 10,
+        // //             hint: "Must have 10 or more chars" // optional
+        // //         };
+        // //     }
+        // // },
+        // //     {
+        //         name: "full_name",
+        //         placeholder: "Enter your full name"
+        //     }],
+        // usernameStyle: 'username'
     });
 
     constructor(public router: Router) {}
@@ -58,13 +59,21 @@ export class AuthService {
                     // Handle error
                     return;
                 }
+
+                //profile.user_metadata = profile.user_metadata || {};
+                console.log(profile);
+                localStorage.setItem('profile', JSON.stringify(profile));
+                // this.user = profile;
+                //console.log(profile);
             //
             //     document.getElementById('nick').textContent = profile.nickname;
             //
             //     localStorage.setItem('accessToken', authResult.accessToken);
-                localStorage.setItem('profile', JSON.stringify(profile));
+            //     localStorage.setItem('profile', JSON.stringify(profile.full_name));
+            //     console.log(profile.full_name);
             });
-            console.log(JSON.parse(localStorage.getItem('profile')));
+
+            // console.log(user.user_metadata.hobby);
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
 

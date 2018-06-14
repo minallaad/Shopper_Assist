@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,OnDestroy} from '@angular/core';
 import {KafkaService} from "../services/kafka.services";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import { Item } from 'list.component.spec';
@@ -21,7 +21,7 @@ class Item{
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit,OnDestroy {
 
   constructor(private chartService: KafkaService,private  http:HttpClient,private auth: AuthService) {
       // Comment out this method call if using
@@ -46,6 +46,12 @@ export class ListComponent implements OnInit {
 
     })
   }
+
+  ngOnDestroy(){
+      console.log("List destroyed");
+  }
+
+
   addItemtoList(itemName:string)
   {
       var flag = 0;
@@ -67,7 +73,7 @@ export class ListComponent implements OnInit {
      }
 
 
-    this.http.post('http://35.233.233.84:8092/postData', JSON.stringify(this.list), {
+    this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
       headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
     })
     .subscribe(data => {

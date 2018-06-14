@@ -10,11 +10,21 @@ Algorithmia
 --------------------------------
 
 
-
+Commands to run on server start
+-------------------------------------------------------------------------------
 ./bin/zookeeper-server-start.sh config/zookeeper.properties &
 
 ./bin/kafka-server-start.sh config/server.properties &
 
+lt --subdomain friday-gclistings --port 8092 &
+--------------------------------------------------------------------------------
+
+Check public IP linux:
+--------------------------------------------------------------------------------
+dig +short myip.opendns.com @resolver1.opendns.com
+
+
+your url is: https://friday-gclistings.localtunnel.me
 
 ln -s /etc/init.d/kafkastart.sh /etc/rc2.d/
 ln -s /etc/init.d/kafkastart.sh /etc/rc1.d/
