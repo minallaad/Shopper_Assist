@@ -14,8 +14,10 @@ export class AppComponent{
         // hash-based routing
         auth.handleAuthentication();
 
-        // this.profile = JSON.parse(localStorage.getItem('profile'));
-        // console.log(this.profile);
+        this.profile = JSON.parse(localStorage.getItem('profile'));
+        //localStorage.setItem('username',this.profile['username']);
+        console.log(this.profile);
+
 
         // Uncomment this method call if using
         // hash-based routing

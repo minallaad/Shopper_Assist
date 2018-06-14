@@ -39,17 +39,5 @@ export class KafkaService {
     return observable;
   }
 
-  // User2() {
-  //   let observable = new Observable(observer => {
-  //     this.socket = io(this.url2);
-  //     this.socket.on('sampleMessage', (data) => {
-  //
-  //       observer.next(data);
-  //     });
-  //     return () => {
-  //       this.socket.disconnect();
-  //     }
-  //   })
-  //   return observable;
-  // }
+
 }

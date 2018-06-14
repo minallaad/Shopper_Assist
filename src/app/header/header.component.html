@@ -1,4 +1,6 @@
-<nav class="navbar navbar-default">
+
+
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
       <a href="#" class="navbar-brand">
@@ -8,14 +10,15 @@
 
     <div class="navbar-default">
         <ul class="nav nav-tabs">
-        <li>
-          <a [routerLink]="['/Messenger'] "*ngIf="auth.isAuthenticated()">
-            <span class="glyphicon glyphicon-comment"></span> Messenger
-          </a>
-        </li>
-        <li><a [routerLink]="['/list']" *ngIf="auth.isAuthenticated()">My List</a></li>
-        <li><a [routerLink]="['/Stores-near-me']" *ngIf="auth.isAuthenticated()">Stores</a></li>
-        <li><a [routerLink]="['/Recipe']" *ngIf="auth.isAuthenticated()">Recipes</a></li>
+        <!--<li>-->
+          <!--<a [routerLink]="['/Messenger'] "*ngIf="auth.isAuthenticated()">-->
+            <!--<span class="glyphicon glyphicon-comment"></span> Messenger-->
+          <!--</a>-->
+        <!--</li>-->
+            <li><a [routerLink]="['/list']" [class]="tab1" *ngIf="auth.isAuthenticated()"><h5>My List</h5></a></li>
+            <li><a [routerLink]="['/list']" [class]="tab2" *ngIf="auth.isAuthenticated()"><h5>Shared List</h5></a></li>
+        <!--<li><a [routerLink]="['/Stores-near-me']" *ngIf="auth.isAuthenticated()">Stores</a></li>-->
+        <!--<li><a [routerLink]="['/Recipe']" *ngIf="auth.isAuthenticated()">Recipes</a></li>-->
 
         <!--<li class="dropdown">-->
           <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#"> My Profile <span class="caret"></span></a>-->
@@ -29,3 +32,10 @@
 
   </div>
 </nav>
+
+<mat-toolbar color="primary">
+    <span>My Application</span>
+    <mat-toolbar-row>
+        <span>Third Line</span>
+    </mat-toolbar-row>
+</mat-toolbar>

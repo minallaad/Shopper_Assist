@@ -1,0 +1,11 @@
+<mat-dialog-content>
+  <h4 class="text-center"><b>Enter UserName</b></h4>
+    <form class="example-form">
+      <input matInput placeholder="Enter Item" #box class="form-control">
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button class="mat-accent" (click)="onYesClick()" tabindex="1">Add</button>
+  <button mat-button class="mat-accent" mat-dialog-close tabindex="-1">Cancel</button>
+</mat-dialog-actions>
