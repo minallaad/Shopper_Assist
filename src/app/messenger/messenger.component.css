@@ -1,0 +1,16 @@
+.container{
+
+    margin-top: 10%;
+}
+
+.app-fab--absolute{
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.example-form{
+    position: fixed;
+    bottom: 1rem;
+    width:75%;
+}

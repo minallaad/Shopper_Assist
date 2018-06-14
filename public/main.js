@@ -92,7 +92,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<main class=\"container\" >\n    <!--<div class = \"onload\" *ngIf=\"!auth.isAuthenticated()\">-->\n        <!--<li><a *ngIf=\"!auth.isAuthenticated()\">Log In-->\n        <li><a [routerLink]=\"auth.login()\" *ngIf=\"!auth.isAuthenticated()\">Log In</a></li>\n        <!--</a>-->\n        <!--</li>-->\n    <!--</div>-->\n    <!--<div class = \"afterload\" *ngIf=\"auth.isAuthenticated()\">-->\n<app-header></app-header>\n\n    <!--<button-->\n            <!--class=\"btn btn-primary btn-margin\"-->\n            <!--*ngIf=\"!auth.isAuthenticated()\"-->\n            <!--(click)=\"auth.login()\">-->\n        <!--Log In-->\n    <!--</button>-->\n\n    <button\n            class=\"btn btn-primary btn-margin\"\n            *ngIf=\"auth.isAuthenticated()\"\n            (click)=\"auth.logout()\">\n        Log Out\n    </button>\n    <router-outlet></router-outlet>\n    <!--</div>-->\n</main>"
+module.exports = "\n<main class=\"container\" >\n    <!--<div class = \"onload\" *ngIf=\"!auth.isAuthenticated()\">-->\n        <!--<li><a *ngIf=\"!auth.isAuthenticated()\">Log In-->\n        <!--<li><a [routerLink]=\"auth.login()\" *ngIf=\"!auth.isAuthenticated()\">Log In</a></li>-->\n        <!--</a>-->\n        <!--</li>-->\n    <!--</div>-->\n    <!--<div class = \"afterload\" *ngIf=\"auth.isAuthenticated()\">-->\n<app-header></app-header>\n\n    <button\n            class=\"btn btn-primary btn-margin\"\n            *ngIf=\"!auth.isAuthenticated()\"\n            (click)=\"auth.login()\">\n        Log In\n    </button>\n\n    <button\n            class=\"btn btn-primary btn-margin\"\n            *ngIf=\"auth.isAuthenticated()\"\n            (click)=\"auth.logout()\">\n        Log Out\n    </button>\n    <router-outlet></router-outlet>\n    <!--</div>-->\n</main>"
 
 /***/ }),
 
@@ -939,7 +939,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/abhinab/WebstormProjects/grocery_assisst/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/minal/Documents/grocery_assisst/src/main.ts */"./src/main.ts");
 
 
 /***/ }),

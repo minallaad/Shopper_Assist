@@ -15,6 +15,7 @@ export class AppComponent{
         auth.handleAuthentication();
 
         this.profile = JSON.parse(localStorage.getItem('profile'));
+        //localStorage.setItem('username',this.profile['username']);
         console.log(this.profile);
 
         // Uncomment this method call if using

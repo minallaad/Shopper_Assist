@@ -8,7 +8,7 @@ import {AuthGuard} from "./services/auth.guard";
 
 const appRoutes: Routes = [
 
-  // {path: '', redirectTo: 'list', pathMatch: 'full'},
+  {path: '', redirectTo: 'list', pathMatch: 'full'},
   {path: 'list', component: ListComponent,canActivate: [AuthGuard] },
   {path: 'Messenger', component: MessengerComponent,canActivate: [AuthGuard] },
   {path: 'Stores-near-me', component: StoresComponent,canActivate: [AuthGuard] },

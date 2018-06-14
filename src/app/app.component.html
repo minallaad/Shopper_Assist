@@ -1,27 +1,11 @@
 
-<main class="container" >
-    <!--<div class = "onload" *ngIf="!auth.isAuthenticated()">-->
-        <!--<li><a *ngIf="!auth.isAuthenticated()">Log In-->
-        <!--<li><a [routerLink]="auth.login()" *ngIf="!auth.isAuthenticated()">Log In</a></li>-->
-        <!--</a>-->
-        <!--</li>-->
-    <!--</div>-->
-    <!--<div class = "afterload" *ngIf="auth.isAuthenticated()">-->
-<app-header></app-header>
-
+<main class="container">
+<navbar></navbar>
     <button
             class="btn btn-primary btn-margin"
             *ngIf="!auth.isAuthenticated()"
             (click)="auth.login()">
         Log In
     </button>
-
-    <button
-            class="btn btn-primary btn-margin"
-            *ngIf="auth.isAuthenticated()"
-            (click)="auth.logout()">
-        Log Out
-    </button>
     <router-outlet></router-outlet>
-    <!--</div>-->
 </main>

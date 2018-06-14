@@ -1,0 +1,7 @@
+.navbar-nav > li > a
+{
+    padding: 0;
+    margin: 0;
+    background: red;
+    vertical-align: bottom;
+}

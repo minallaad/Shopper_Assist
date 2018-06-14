@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 
 export class KafkaService {
-  private url = 'http://35.233.233.84:8092';
+  private url = 'https://friday-gclistings.localtunnel.me';
   private socket;
 
   sendMessage(message) {
@@ -25,17 +25,5 @@ export class KafkaService {
     return observable;
   }
 
-  // User2() {
-  //   let observable = new Observable(observer => {
-  //     this.socket = io(this.url2);
-  //     this.socket.on('sampleMessage', (data) => {
-  //
-  //       observer.next(data);
-  //     });
-  //     return () => {
-  //       this.socket.disconnect();
-  //     }
-  //   })
-  //   return observable;
-  // }
+
 }

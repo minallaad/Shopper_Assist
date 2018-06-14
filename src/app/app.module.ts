@@ -7,7 +7,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {KafkaService} from "./services/kafka.services";
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSidenavModule } from '@angular/material';
+import { MatSidenavModule , MatToolbarModule, MatButtonModule, MatIconModule, MatListModule, MatGridListModule, MatMenuModule,MatCardModule} from '@angular/material';
 import { HeaderComponent } from './header/header.component';
 import { MessengerComponent } from './messenger/messenger.component';
 import { StoresComponent } from './stores/stores.component';
@@ -15,7 +15,12 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { FooterComponent } from './footer/footer.component';
 import { AuthService } from './services/auth.service';
 import {AuthGuard} from "./services/auth.guard";
-
+import { NavbarComponent } from './navbar/navbar.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { DashComponent } from './dash/dash.component';
+import { MaterialModule } from './material.module';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+import {MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -26,6 +31,9 @@ import {AuthGuard} from "./services/auth.guard";
     StoresComponent,
     RecipesComponent,
     FooterComponent,
+    NavbarComponent,
+    DashComponent,
+    DialogBoxComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,12 +41,26 @@ import {AuthGuard} from "./services/auth.guard";
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatSidenavModule
+    MaterialModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    LayoutModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatCardModule
   ],
   providers: [
     KafkaService,
       AuthService,
       AuthGuard
+  ],
+  entryComponents: [
+      DialogBoxComponent
   ],
   bootstrap: [AppComponent]
 })

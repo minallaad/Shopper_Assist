@@ -10,6 +10,14 @@ Algorithmia
 --------------------------------
 
 
+Commands to run on server start
+-------------------------------------------------------------------------------
+./bin/zookeeper-server-start.sh config/zookeeper.properties &
+
+./bin/kafka-server-start.sh config/server.properties &
+
+lt --subdomain friday-gclistings --port 8092 &
+--------------------------------------------------------------------------------
 
 ./bin/zookeeper-server-start.sh config/zookeeper.properties &
 
@@ -45,6 +53,8 @@ bin/kafka-topics.sh --create --zookeeper localhost:2181 \
 
 
 
+
+
 Kill processes:
 ----------------------------------
 sudo lsof -t -i:9001
@@ -63,7 +73,16 @@ echo 'export GOOGLE_APPLICATION_CREDENTIALS="/home/abhinab/WebstormProjects/stoc
 ----------------------------------
 To generate a new component
 
- ng generate component <name>
+ng g component <name> --module <module_name>
+eg: ng g component test --module app.module.ts
+
+
+Check public IP linux:
+--------------------------------------------------------------------------------
+dig +short myip.opendns.com @resolver1.opendns.com
+
+Abhinab Mohanty
+
 
 
 

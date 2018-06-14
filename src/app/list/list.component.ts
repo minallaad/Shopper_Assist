@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {KafkaService} from "../services/kafka.services";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { Item } from 'list.component.spec';
+import {DomSanitizer} from '@angular/platform-browser';
+import {MatIconRegistry} from '@angular/material';
 import { AuthService } from '../services/auth.service';
+import { MatDialog} from '@angular/material/dialog';
+import {MatSnackBar } from '@angular/material/snack-bar';
+import {DialogBoxComponent} from "../dialog-box/dialog-box.component";
 
 class Item{
     public name:string;
@@ -23,18 +27,27 @@ class Item{
 })
 export class ListComponent implements OnInit {
 
-  constructor(private chartService: KafkaService,private  http:HttpClient,private auth: AuthService) {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private chartService: KafkaService,private  http:HttpClient,private auth: AuthService,public snackBar: MatSnackBar,private dialog: MatDialog) {
       // Comment out this method call if using
       // hash-based routing
       auth.handleAuthentication();
 
-      // Uncomment this method call if using
-      // hash-based routing
-      // auth.handleAuthenticationWithHash();
+      iconRegistry.addSvgIcon(
+          'add_user',
+          sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-group_add-24px.svg'));
+
+
+      iconRegistry.addSvgIcon(
+          'Save_list',
+          sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-save_alt-24px.svg'));
+
   }
+
 
   connection:any;
   list : Item[] = [];
+  addUser:boolean;
+
   ngOnInit() {
     console.log("in list");
     this.connection = this.chartService.getMessage().subscribe(message =>{
@@ -46,6 +59,7 @@ export class ListComponent implements OnInit {
 
     })
   }
+
   addItemtoList(itemName:string)
   {
       var flag = 0;
@@ -67,7 +81,9 @@ export class ListComponent implements OnInit {
      }
 
 
-    this.http.post('http://35.233.233.84:8092/postData', JSON.stringify(this.list), {
+     //https://friday-gclistings.localtunnel.me
+    //this.http.post('http://35.233.233.84:8092/postData', JSON.stringify(this.list), {
+   this.http.post('https://friday-gclistings.localtunnel.me/postData', JSON.stringify(this.list), {
       headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
     })
     .subscribe(data => {
@@ -75,6 +91,35 @@ export class ListComponent implements OnInit {
     });
 
   }
+
+    addNewUser() {
+
+
+        const dialogRef = this.dialog.open(DialogBoxComponent,{
+            width: '250px',
+            height: '200px'
+        });
+        //const snack = this.snackBar.open('Snack bar open before dialog');
+        const snack = this.snackBar.dismiss();
+
+        dialogRef.afterClosed().subscribe((showSnackBar: boolean) => {
+            if (showSnackBar) {
+                const a = document.createElement('a');
+                a.click();
+                a.remove();
+                this.snackBar.open('User has been Added Successfully!', '', {
+                    duration: 2000,
+                });
+            }
+        });
+
+
+    }
+
+    openDialog()
+    {
+
+    }
 
   removeFromlist(item:string)
   {
@@ -85,10 +130,18 @@ export class ListComponent implements OnInit {
           if(this.list[i].name === item) {
               this.list[i].isPresent = false;
               console.log(this.list[i].isPresent);
+              break;
           }
 
 
       }
+
+      this.http.post('https://friday-gclistings.localtunnel.me/postData', JSON.stringify(this.list), {
+          headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
+      })
+          .subscribe(data => {
+              console.log(data);
+          });
       console.log(this.list);
   }
 

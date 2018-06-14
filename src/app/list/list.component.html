@@ -1,28 +1,19 @@
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-    <div class="example-sidenav-content">
-      <section>
+<mat-card-content class="container">
         <form class="example-form">
         <!--<mat-form-field class="example-full-width">-->
           <input matInput placeholder="Enter Item" #box (keyup.enter)="addItemtoList(box.value);"  class="form-control" >
+            <mat-icon matTooltip="Share list by adding users"(click)="addNewUser()" class="add_user" aria-label="Example icon-button with a heart icon" svgIcon="add_user"></mat-icon>
         <!--</mat-form-field>-->
       </form>
         <br>
         <div *ngFor="let item of list">
-          <ul class="list-group">
-            <li class="list-group-item" *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)"  >
-              <h4><b>{{item.name}}</b></h4>
-            </li>
-            <li class="list-group-item" ng-model ="item.name" *ngIf="!item.isPresent" (click)="addItemtoList(item.name)"  >
-              <s> <b><h4 >{{item.name}}</h4></b></s>
-            </li>
-          </ul>
+          <mat-card *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)"><h4><b>{{item.name}}</b></h4></mat-card>
+          <mat-card *ngIf="!item.isPresent" ng-model ="item.name" (click)="addItemtoList(item.name)"><h4><s>{{item.name}}</s></h4></mat-card>
         </div>
-      </section>
-      </div>
-  </div>
-</div>
-</div>
+
+</mat-card-content>
+<button mat-fab class="app-fab--absolute" matTooltip="Save your list for future use">
+  <mat-icon  (click)="openDialog()" aria-label="Example icon-button with a heart icon" svgIcon="Save_list" >Save</mat-icon>
+</button>
 
