@@ -1,11 +1,35 @@
-<mat-dialog-content>
-  <h4 class="text-center"><b>Enter UserName</b></h4>
-    <form class="example-form">
-      <input matInput placeholder="Enter Item" #box class="form-control">
-    </form>
+<!--<mat-dialog-content>-->
+  <!--<mat-icon  (click)="Cancel()"  svgIcon="close" ></mat-icon>-->
+  <!--<h4 class="text-center"><b>Enter UserName</b></h4>-->
+    <!--<form class="example-form">-->
+      <!--<input [(ngModel)]="data.newUserName" matInput placeholder="Enter Item" #box class="form-control" [ngModelOptions]="{standalone: true}" >-->
+      <!--<mat-icon matTooltip="Share list by adding users" class="add_user"  svgIcon="add"></mat-icon>-->
+    <!--</form>-->
 
-</mat-dialog-content>
+<!--</mat-dialog-content>-->
+<!--<mat-dialog-actions>-->
+  <!--<button mat-button class="mat-accent" [mat-dialog-close]="data.newUserName"  tabindex="1">Confirm</button>-->
+  <!--&lt;!&ndash;<button mat-button class="mat-accent"  (click)="Cancel()"   tabindex="-1">Cancel</button>&ndash;&gt;-->
+<!--</mat-dialog-actions>-->
+
+
+<mat-form-field class="demo-chip-list">
+  <mat-chip-list #chipList>
+    <input placeholder="Enter UserName"
+           [matChipInputFor]="chipList"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+           [matChipInputAddOnBlur]="addOnBlur"
+           (matChipInputTokenEnd)="add($event)" />
+  </mat-chip-list>
+</mat-form-field>
+
+<mat-chip *ngFor="let user of users" [selectable]="selectable"
+          [removable]="removable" (removed)="remove(user)">
+  {{user}}
+  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+</mat-chip>
+
 <mat-dialog-actions>
-  <button mat-button class="mat-accent" (click)="onYesClick()" tabindex="1">Add</button>
-  <button mat-button class="mat-accent" mat-dialog-close tabindex="-1">Cancel</button>
+<button mat-button class="mat-accent" (click)="Confirm()"  tabindex="1">Confirm</button>
+<!--<button mat-button class="mat-accent"  (click)="Cancel()"   tabindex="-1">Cancel</button>-->
 </mat-dialog-actions>

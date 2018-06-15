@@ -20,6 +20,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MaterialModule } from './material.module';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import {MatSnackBarModule } from '@angular/material/snack-bar';
+import { Globals } from './globals'
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {MatSnackBarModule } from '@angular/material/snack-bar';
   providers: [
     KafkaService,
       AuthService,
-      AuthGuard
+      AuthGuard,
+      Globals
   ],
   entryComponents: [
       DialogBoxComponent

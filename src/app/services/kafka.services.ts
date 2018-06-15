@@ -18,7 +18,9 @@ export class KafkaService {
       console.log("User set");
   }
 
-  addToRoom(nick_names){
+  addToRoom(nick_names ){
+    console.log(typeof nick_names);
+    console.log(nick_names);
     this.socket.emit('Room request',nick_names);
 
   }

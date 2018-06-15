@@ -7,17 +7,24 @@ import { AuthService } from '../services/auth.service';
 import { MatDialog} from '@angular/material/dialog';
 import {MatSnackBar } from '@angular/material/snack-bar';
 import {DialogBoxComponent} from "../dialog-box/dialog-box.component";
+import {Item} from "../Models/list.model";
+import {userList} from "../Models/userList.model";
+import { Globals } from '../globals';
 
-class Item{
-    public name:string;
-    public isPresent:boolean;
+// class Item{
+//     public name:string;
+//     public isPresent:boolean;
+//
+//     constructor(name: string , isPresent:boolean)
+//     {
+//         this.name = name;
+//         this.isPresent =isPresent;
+//     }
+// }
 
-    constructor(name: string , isPresent:boolean)
-    {
-        this.name = name;
-        this.isPresent =isPresent;
-    }
-}
+
+
+
 
 
 @Component({
@@ -27,10 +34,11 @@ class Item{
 })
 export class ListComponent implements OnInit,OnDestroy {
 
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private chartService: KafkaService,private  http:HttpClient,private auth: AuthService,public snackBar: MatSnackBar,private dialog: MatDialog) {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private kafkaService: KafkaService,private  http:HttpClient,private auth: AuthService,public snackBar: MatSnackBar,private dialog: MatDialog,private globals: Globals) {
       // Comment out this method call if using
       // hash-based routing
       auth.handleAuthentication();
+      console.log(globals.usersList);
 
       iconRegistry.addSvgIcon(
           'add_user',
@@ -46,11 +54,12 @@ export class ListComponent implements OnInit,OnDestroy {
 
   connection:any;
   list : Item[] = [];
-  addUser:boolean;
+  usersList: userList;
+
 
   ngOnInit() {
     console.log("in list");
-    this.connection = this.chartService.getMessage().subscribe(message =>{
+    this.connection = this.kafkaService.getMessage().subscribe(message =>{
         console.log(message);
         console.log(typeof message);
 
@@ -69,6 +78,8 @@ export class ListComponent implements OnInit,OnDestroy {
   addItemtoList(itemName:string)
   {
       var flag = 0;
+
+
 
       for(let i in this.list)
       {
@@ -96,27 +107,41 @@ export class ListComponent implements OnInit,OnDestroy {
       console.log(data);
     });
 
+      //
+      // if (itemName) {
+      //     itemName = '';
+      // }
+
   }
 
     addNewUser() {
 
 
+
+
         const dialogRef = this.dialog.open(DialogBoxComponent,{
             width: '250px',
-            height: '200px'
+            height: '200px',
+
         });
         //const snack = this.snackBar.open('Snack bar open before dialog');
         const snack = this.snackBar.dismiss();
 
-        dialogRef.afterClosed().subscribe((showSnackBar: boolean) => {
-            if (showSnackBar) {
-                const a = document.createElement('a');
-                a.click();
-                a.remove();
-                this.snackBar.open('User has been Added Successfully!', '', {
-                    duration: 2000,
-                });
-            }
+
+        dialogRef.afterClosed().subscribe( (showSnackBar: boolean) => {
+                 console.log(this.globals.usersList);
+            //     this.usersList = this.globals.usersList;
+            //     //Calling Kafka services for socket connection here
+            this.kafkaService.addToRoom(this.globals.usersList);
+            console.log('closing');
+            // if (showSnackBar) {
+            //     const a = document.createElement('a');
+            //     a.click();
+            //     a.remove();
+            //     this.snackBar.open('User has been Added Successfully!', '', {
+            //         duration: 2000,
+            //     });
+            // }
         });
 
 
