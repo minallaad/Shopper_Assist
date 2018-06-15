@@ -142,7 +142,7 @@ export class ListComponent implements OnInit,OnDestroy {
 
       }
 
-      this.http.post('https://friday-gclistings.localtunnel.me/postData', JSON.stringify(this.list), {
+      this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
           headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
       })
           .subscribe(data => {

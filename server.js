@@ -4,7 +4,7 @@ var express = require('express'),
     app = express(),
     http = require('http').Server(app),
     io = require('socket.io')(http),//.listen(server),
-    usernames = {};
+    usernames = {}, rooms = [];
 
 
 var kafka = require('no-kafka');
@@ -47,6 +47,7 @@ io.sockets.on("connection",function(socket) {
         socket.username = data;
         usernames[socket.username] = socket;
         //usernames.push(socket.username);
+        //console.log(usernames);
         console.log(Object.keys(usernames));
 
     });

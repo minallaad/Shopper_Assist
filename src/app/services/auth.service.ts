@@ -42,11 +42,27 @@ export class AuthService {
         //     }],
         // usernameStyle: 'username'
     });
-
     constructor(public router: Router) {}
 
     public login(): void {
         this.lock.show();
+    }
+
+
+    public getSetName(authResult): void{
+
+        this.lock.getUserInfo(authResult.accessToken, function(error, profile) {
+            if (error) {
+                // Handle error
+                return;
+            }
+            console.log(JSON.stringify(profile));
+
+            localStorage.setItem('profile',JSON.stringify(profile));
+            localStorage.setItem('username', JSON.parse(localStorage.getItem('profile')).nickname.toString());
+
+        });
+
     }
 
     // Call this method in app.component.ts
@@ -54,27 +70,10 @@ export class AuthService {
     public handleAuthentication(): void {
 
         this.lock.on('authenticated', (authResult) => {
-            this.lock.getUserInfo(authResult.accessToken, function(error, profile) {
-                if (error) {
-                    // Handle error
-                    return;
-                }
+            this.getSetName(authResult);
 
-                //profile.user_metadata = profile.user_metadata || {};
-                console.log(profile);
-                localStorage.setItem('profile', JSON.stringify(profile));
-                // this.user = profile;
-                //console.log(profile);
-            //
-            //     document.getElementById('nick').textContent = profile.nickname;
-            //
-            //     localStorage.setItem('accessToken', authResult.accessToken);
-            //     localStorage.setItem('profile', JSON.stringify(profile.full_name));
-            //     console.log(profile.full_name);
-            });
-
-            // console.log(user.user_metadata.hobby);
             if (authResult && authResult.accessToken && authResult.idToken) {
+                //this.getSetName(authResult);
                 this.setSession(authResult);
 
                 this.router.navigate(['/']);
@@ -89,34 +88,37 @@ export class AuthService {
 
     // Call this method in app.component.ts
     // if using hash-based routing
-    public handleAuthenticationWithHash(): void {
-        this
-            .router
-            .events
-            .pipe(
-                filter(event => event instanceof NavigationStart),
-                filter((event: NavigationStart) => (/access_token|id_token|error/).test(event.url))
-            )
-            .subscribe(() => {
-                this.lock.resumeAuth(window.location.hash, (err, authResult) => {
-                    if (err) {
-                        this.router.navigate(['/']);
-                        console.log(err);
-                        alert(`Error: ${err.error}. Check the console for further details.`);
-                        return;
-                    }
-                    this.setSession(authResult);
-                    this.router.navigate(['/']);
-                });
-            });
-    }
+    // public handleAuthenticationWithHash(): void {
+    //     this
+    //         .router
+    //         .events
+    //         .pipe(
+    //             filter(event => event instanceof NavigationStart),
+    //             filter((event: NavigationStart) => (/access_token|id_token|error/).test(event.url))
+    //         )
+    //         .subscribe(() => {
+    //             this.lock.resumeAuth(window.location.hash, (err, authResult) => {
+    //                 if (err) {
+    //                     this.router.navigate(['/']);
+    //                     console.log(err);
+    //                     alert(`Error: ${err.error}. Check the console for further details.`);
+    //                     return;
+    //                 }
+    //                 this.setSession(authResult);
+    //                 this.router.navigate(['/']);
+    //             });
+    //         });
+    // }
 
     private setSession(authResult): void {
         // Set the time that the access token will expire at
         const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+        //Getting user Info
+
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expiresAt);
+        //localStorage.setItem('username',profilia.nickname);
         // localStorage.setItem('id',authResult.id);
         console.log(authResult.idToken);
     }
@@ -126,6 +128,8 @@ export class AuthService {
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
+        localStorage.removeItem('profile');
+        localStorage.removeItem('username');
         // Go back to the home route
         this.router.navigate(['/']);
     }

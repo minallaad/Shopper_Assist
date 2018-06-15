@@ -11,6 +11,7 @@ export class DialogBoxComponent implements OnInit {
         public dialogRef: MatDialogRef<DialogBoxComponent>) { }
 
     onYesClick(): void {
+
         this.dialogRef.close(true);
     }
      ngOnInit()

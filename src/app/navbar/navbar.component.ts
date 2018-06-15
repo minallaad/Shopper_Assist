@@ -38,6 +38,7 @@ export class NavbarComponent implements OnInit{
    {
      this.auth.handleAuthentication();
      localStorage.clear();
+
      this.auth.logout();
    }
   }

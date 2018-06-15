@@ -17,7 +17,6 @@ import { AuthService } from './services/auth.service';
 import {AuthGuard} from "./services/auth.guard";
 import { NavbarComponent } from './navbar/navbar.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { DashComponent } from './dash/dash.component';
 import { MaterialModule } from './material.module';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import {MatSnackBarModule } from '@angular/material/snack-bar';
@@ -32,7 +31,6 @@ import {MatSnackBarModule } from '@angular/material/snack-bar';
     RecipesComponent,
     FooterComponent,
     NavbarComponent,
-    DashComponent,
     DialogBoxComponent,
   ],
   imports: [

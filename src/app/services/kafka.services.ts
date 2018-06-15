@@ -12,6 +12,7 @@ export class KafkaService {
     console.log("MESSAGE SENT");
   }
 
+
   addUser(nick_name){
       this.socket.emit('new user', nick_name);
       console.log("User set");
