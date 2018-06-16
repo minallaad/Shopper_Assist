@@ -93,7 +93,7 @@ io.sockets.on("connection",function(socket) {
 
     });
         topicassigned[topicass] = socketArray;
-        console.log(topicassigned);
+        //console.log(topicassigned);
     // TOPIC_NAME.push(room);
     //     shell.exec('~/Softwares/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + TOPIC_NAME[TOPIC_NAME.length-1]);
     console.log("Room Job Completed");
@@ -109,24 +109,29 @@ io.sockets.on("connection",function(socket) {
         clientId: 'no-kafka-client'
     });
 
-    let TOPIC_NAME = null;
-    Object.keys(topicassigned).forEach(function(key) {
-        var val = topicassigned[key];
-        if (val.includes(socket)) {
-            TOPIC_NAME = key;
-        }
-        else {
-            console.log('Sorry Some Error has occured');
-        }
-        return TOPIC_NAME
-    });
 
-    alert(TOPIC_NAME);
+
+
+    //alert(TOPIC_NAME);
             // app.post('/postData', function (req, res) {
             //     // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1/*');
             //     res.send(req.body)
                 // JSON.stringify
             socket.on('add-message',function (data,callback){
+                let TOPIC_NAME = null;
+                Object.keys(topicassigned).forEach(function(key) {
+                    var val = topicassigned[key];
+                    if (val.includes(socket)) {
+                        // console.log(topicassigned);
+                        // console.log(key);
+                        TOPIC_NAME = key;
+                    }
+                    else {
+                        console.log('Sorry Some Error has occured');
+                    }
+                    //return TOPIC_NAME
+                });
+                console.log(TOPIC_NAME);
                 var message = JSON.stringify(data);
                 console.log(message);
                 var payloads =
@@ -163,19 +168,24 @@ io.sockets.on("connection",function(socket) {
 
 
     socket.on('disconnect', function(){
-
+        console.log('DISCONNECT');
         Object.keys(topicassigned).forEach(function(key) {
             var val = topicassigned[key];
             if(val.includes(socket)){
                 var index = val.indexOf(socket);
                 if (index > -1) {
+                    console.log('val before updation:'+val);
                     val.splice(index, 1);
-                    topicassigned[key] = val;
+                    console.log('val after updation:'+val);
+                    if(val === undefined || !val.length){
+                        console.log('In delete');
+                        delete topicassigned[key];
+                    }else {
+                        topicassigned[key] = val;
+                    }
                 }
             }
 
-            if(topicassigned[key] === null || topicassigned[key].length){
-                delete topicassigned[key];
 
 
                 if(filledTopics.includes(key)) {
@@ -185,10 +195,14 @@ io.sockets.on("connection",function(socket) {
                         topics.push(key);
                     }
                 }
-            }
+
+
+            //}
 
 
         });
+
+
 
 
 
@@ -260,12 +274,12 @@ http.listen(PORT_NUMBER, () => {
             clientId: 'no-kafka-client'
         });
 
-    var dataHandler = function (messageSet, TOPIC_NAME) {
+    var dataHandler = function (messageSet, tp) {
         messageSet.forEach(function (m) {
             console.log(usernames);
-            console.log(TOPIC_NAME, m.offset, m.message.value.toString('utf8'));
+            console.log(tp, m.offset, m.message.value.toString('utf8'));
 
-            io.to(TOPIC_NAME).emit('message', m.message.value.toString('utf8'));
+            io.to(tp).emit('message', m.message.value.toString('utf8'));
         });
     };//Also in same function
     return consumer.init().then(function () {
