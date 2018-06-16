@@ -109,16 +109,26 @@ io.sockets.on("connection",function(socket) {
         clientId: 'no-kafka-client'
     });
 
-
+    let TOPIC_NAME = null;
     Object.keys(topicassigned).forEach(function(key) {
         var val = topicassigned[key];
-        if(val.includes(socket)){
-             let TOPIC_NAME = key;
-            app.post('/postData', function (req, res) {
-                // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1/*');
-                res.send(req.body)
+        if (val.includes(socket)) {
+            TOPIC_NAME = key;
+        }
+        else {
+            console.log('Sorry Some Error has occured');
+        }
+        return TOPIC_NAME
+    });
+
+    alert(TOPIC_NAME);
+            // app.post('/postData', function (req, res) {
+            //     // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1/*');
+            //     res.send(req.body)
                 // JSON.stringify
-                var message = JSON.stringify(req.body);
+            socket.on('add-message',function (data,callback){
+                var message = JSON.stringify(data);
+                console.log(message);
                 var payloads =
                     {
                         topic: TOPIC_NAME,
@@ -142,12 +152,9 @@ io.sockets.on("connection",function(socket) {
                 // producer.send(payloads);
             });
 
-        }
-        else{
-            console.log('Sorry Some Error has occured');
-        }
 
-    });
+
+
 
 
 
@@ -203,8 +210,7 @@ io.sockets.on("connection",function(socket) {
         console.log(filledTopics);
         console.log(topics);
         console.log(usernames);
-        console.log(rooms);
-        console.log(topicassiged);
+        console.log(topicassigned);
 
     });
 });

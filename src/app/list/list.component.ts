@@ -96,16 +96,17 @@ export class ListComponent implements OnInit,OnDestroy {
          this.list.push(item);
          console.log(this.list);
      }
+      this.kafkaService.sendMessage(this.list);
 
 
-
-    this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
-
-      headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
-    })
-    .subscribe(data => {
-      console.log(data);
-    });
+    //
+    // this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
+    //
+    //   headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
+    // })
+    // .subscribe(data => {
+    //   console.log(data);
+    // });
 
       //
       // if (itemName) {
@@ -167,12 +168,14 @@ export class ListComponent implements OnInit,OnDestroy {
 
       }
 
-      this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
-          headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
-      })
-          .subscribe(data => {
-              console.log(data);
-          });
+      this.kafkaService.sendMessage(this.list);
+
+      // this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
+      //     headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
+      // })
+      //     .subscribe(data => {
+      //         console.log(data);
+      //     });
       console.log(this.list);
   }
 
