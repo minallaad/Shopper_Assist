@@ -7,14 +7,12 @@
   box-shadow: 3px 0 6px rgba(0,0,0,.24);
 }
 app-navbar {
+
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
+  width: 100%;
 }
 .app-name{
-
   /*position: fixed;*/
   margin-left: 15%;
 }

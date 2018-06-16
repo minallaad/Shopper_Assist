@@ -125,24 +125,12 @@ export class ListComponent implements OnInit,OnDestroy {
             height: '200px',
 
         });
-        //const snack = this.snackBar.open('Snack bar open before dialog');
-        const snack = this.snackBar.dismiss();
 
 
         dialogRef.afterClosed().subscribe( (showSnackBar: boolean) => {
-                 console.log(this.globals.usersList);
-            //     this.usersList = this.globals.usersList;
-            //     //Calling Kafka services for socket connection here
+            console.log(this.globals.usersList);
             this.kafkaService.addToRoom(this.globals.usersList);
             console.log('closing');
-            // if (showSnackBar) {
-            //     const a = document.createElement('a');
-            //     a.click();
-            //     a.remove();
-            //     this.snackBar.open('User has been Added Successfully!', '', {
-            //         duration: 2000,
-            //     });
-            // }
         });
 
 

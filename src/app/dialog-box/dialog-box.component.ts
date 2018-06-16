@@ -5,7 +5,7 @@ import {MatIconRegistry} from '@angular/material';
 import {MatChipInputEvent} from "@angular/material/typings/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import { Globals } from '../globals';
-
+import {MatSnackBar} from '@angular/material';
 
 
 class userList{
@@ -32,7 +32,7 @@ export class DialogBoxComponent implements OnInit {
     private usersList : userList;
 
     constructor( iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
-    public dialogRef: MatDialogRef<DialogBoxComponent>,  @Inject(MAT_DIALOG_DATA) public data: any,private globals: Globals) {
+    public dialogRef: MatDialogRef<DialogBoxComponent>,  @Inject(MAT_DIALOG_DATA) public data: any,private globals: Globals,public snackBar: MatSnackBar) {
         this.username =localStorage.getItem('username');
 
 
@@ -50,12 +50,15 @@ export class DialogBoxComponent implements OnInit {
 
         var usersListHere = new userList(this.username,this.users);
         this.usersList = usersListHere;
-
-       // this.globals.usersList = JSON.stringify(this.usersList);
         this.globals.usersList = this.usersList;
-        // console.log(usersList);
-        console.log(typeof  this.globals.usersList);
-        console.log(this.globals.usersList);
+
+        this.snackBar.open("You are sharing you list", "Stop Sharing" , {
+
+        }).onAction().subscribe(() => {
+            console.log("You have stopped sharing your list");
+        });
+
+
         this.dialogRef.close();
     }
      ngOnInit()
