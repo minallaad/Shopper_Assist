@@ -1,23 +1,20 @@
 import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
-import { Globals } from '../globals';
+
 
 export class KafkaService {
-  //private url = 'https://friday-gclistings.localtunnel.me';
 
-
-  constructor(private globals : Globals)
-  {
-
-  }
-     private url = 'http://localhost:8092';
+  private url = 'https://friday-gclistings.localtunnel.me';
+  // private url = 'http://localhost:8092';
   private socket = io(this.url);
 
-  // let observable = new Observable;
+ private room_shared : boolean = false;
+
+
 
   sendMessage(message) {
 
-    if( this.globals.room_shared )
+    if( this.room_shared )
     {
         this.socket.emit('add-message', message);
         console.log("MESSAGE SENT");
@@ -34,13 +31,15 @@ export class KafkaService {
   addToRoom(nick_names ){
     console.log(typeof nick_names);
     console.log(nick_names);
-    this.globals.room_shared = true;
+    this.room_shared = true;
+    localStorage.setItem("room_shared","1");
     this.socket.emit('Room request',nick_names);
 
   }
 
   stopSharing(){
-      this.globals.room_shared = false;
+      this.room_shared = false;
+      localStorage.setItem("room_shared","0");
       this.socket.emit('stop-sharing');
   }
 

@@ -55,6 +55,7 @@ export class ListComponent implements OnInit,OnDestroy {
   connection:any;
   list : Item[] = [];
   usersList: userList;
+  room_shared = 0;
 
 
   ngOnInit() {
@@ -68,7 +69,8 @@ export class ListComponent implements OnInit,OnDestroy {
 
     })
 
-      if(this.globals.room_shared)
+      this.room_shared = parseInt(localStorage.getItem("room_shared"));
+      if(this.room_shared)
       {
           this.snackBar.open("You are sharing you list", "Stop Sharing" , {
 
