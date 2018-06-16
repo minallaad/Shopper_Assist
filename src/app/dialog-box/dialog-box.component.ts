@@ -6,6 +6,7 @@ import {MatChipInputEvent} from "@angular/material/typings/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import { Globals } from '../globals';
 import {MatSnackBar} from '@angular/material';
+import {KafkaService} from "../services/kafka.services";
 
 
 class userList{
@@ -32,7 +33,7 @@ export class DialogBoxComponent implements OnInit {
     private usersList : userList;
 
     constructor( iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
-    public dialogRef: MatDialogRef<DialogBoxComponent>,  @Inject(MAT_DIALOG_DATA) public data: any,private globals: Globals,public snackBar: MatSnackBar) {
+    public dialogRef: MatDialogRef<DialogBoxComponent>,  @Inject(MAT_DIALOG_DATA) public data: any,private globals: Globals,public snackBar: MatSnackBar,private kafkaService: KafkaService) {
         this.username =localStorage.getItem('username');
 
 
@@ -56,6 +57,7 @@ export class DialogBoxComponent implements OnInit {
 
         }).onAction().subscribe(() => {
             console.log("You have stopped sharing your list");
+            this.kafkaService.stopSharing();
         });
 
 

@@ -34,7 +34,7 @@ import { Globals } from '../globals';
 })
 export class ListComponent implements OnInit,OnDestroy {
 
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private kafkaService: KafkaService,private  http:HttpClient,private auth: AuthService,public snackBar: MatSnackBar,private dialog: MatDialog,private globals: Globals) {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private kafkaService: KafkaService,public snackBar: MatSnackBar,private  http:HttpClient,private auth: AuthService,private dialog: MatDialog,private globals: Globals) {
       // Comment out this method call if using
       // hash-based routing
       auth.handleAuthentication();
@@ -67,6 +67,16 @@ export class ListComponent implements OnInit,OnDestroy {
         console.log(this.list);
 
     })
+
+      if(this.globals.room_shared)
+      {
+          this.snackBar.open("You are sharing you list", "Stop Sharing" , {
+
+          }).onAction().subscribe(() => {
+              console.log("You have stopped sharing your list");
+              this.kafkaService.stopSharing();
+          });
+      }
   }
 
 
