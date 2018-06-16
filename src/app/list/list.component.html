@@ -7,7 +7,7 @@
         <!--</mat-form-field>-->
       </form>
         <br>
-        <div *ngFor="let item of list">
+        <div *ngFor="let item of list" class="list-group">
           <mat-card *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)"><h4><b>{{item.name}}</b></h4></mat-card>
           <mat-card *ngIf="!item.isPresent" ng-model ="item.name" (click)="addItemtoList(item.name)"><h4><s>{{item.name}}</s></h4></mat-card>
         </div>
