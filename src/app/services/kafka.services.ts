@@ -25,6 +25,10 @@ export class KafkaService {
 
   }
 
+  stopSharing(){
+      this.socket.emit('stop-sharing');
+  }
+
 
   getMessage() {
     let observable = new Observable(observer => {

@@ -48,38 +48,54 @@ TOTAL_TOPICS.forEach(topic => {
     shell.exec('~/Softwares/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + topic);
 });
 
-
+let topicsWUid = {};
 io.sockets.on("connection",function(socket) {
     console.log("New Connection");
 
     socket.on('new user',function (data,callback) {
         socket.username = data;
         usernames[socket.username] = socket;
-        //usernames.push(socket.username);
-        //console.log(usernames);
-        console.log(Object.keys(usernames));
+        Object.keys(topicsWUid).forEach(function (key) {
+            var val = topicsWUid[key];
+            if (val.includes(socket.username)) {
+                console.log(socket.username + ' joined back to ' + key);
+                socket.join(key);
+            }
 
+            //usernames.push(socket.username);
+            //console.log(usernames);
+            console.log("On New user : " + Object.keys(usernames));
+
+        });
+    });
+
+    var producer = new kafka.Producer({
+        connectionString: 'kafka://localhost:9092',
+        clientId: 'no-kafka-client'
     });
 
     socket.on('Room request',function (data,callback) {
+        console.log("In Room request Start : "+Object.keys(usernames));
         //room = data.userName;
         let room = data.users;
         room.push(data.userName);
         console.log(room);
         let topicass = null;
         let socketArray = [];
+        let nameArray = [];
         //topicassiged[topicass] = [];
-    room.forEach(user => {
-        // userlist.push(user);
-        if(topics !== null || topics!==[]) {
-            topicass = topics.pop();
-            if (user in usernames) {
-                usernames[user].join(topicass);
-                filledTopics.push(topicass);
-                socketArray.push(usernames[user]);
-                // topicassiged[topicass].push(usernames[user]);
-            }
-            else
+        room.forEach(user => {
+            // userlist.push(user);
+            if(topics !== null || topics!==[]) {
+                topicass = topics.pop();
+                if (user in usernames) {
+                    usernames[user].join(topicass);
+                    filledTopics.push(topicass);
+                    socketArray.push(usernames[user]);
+                    nameArray.push(user);
+                    // topicassiged[topicass].push(usernames[user]);
+                }
+                else
                 {
                     console.log('All Topics Filled');
                 }
@@ -91,113 +107,132 @@ io.sockets.on("connection",function(socket) {
             }
 
 
-    });
+        });
         topicassigned[topicass] = socketArray;
+        topicsWUid[topicass] = nameArray;
         //console.log(topicassigned);
-    // TOPIC_NAME.push(room);
-    //     shell.exec('~/Softwares/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + TOPIC_NAME[TOPIC_NAME.length-1]);
-    console.log("Room Job Completed");
-        console.log(data);
+        // TOPIC_NAME.push(room);
+        //     shell.exec('~/Softwares/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + TOPIC_NAME[TOPIC_NAME.length-1]);
+        console.log("Room Job Completed");
+        console.log("After Room request : ");
+        console.log(topicassigned);
+        console.log(filledTopics);
 
 
 
     });
 
 
-    var producer = new kafka.Producer({
-        connectionString: 'kafka://localhost:9092',
-        clientId: 'no-kafka-client'
-    });
+
 
 
 
 
     //alert(TOPIC_NAME);
-            // app.post('/postData', function (req, res) {
-            //     // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1/*');
-            //     res.send(req.body)
-                // JSON.stringify
-            socket.on('add-message',function (data,callback){
-                let TOPIC_NAME = null;
-                Object.keys(topicassigned).forEach(function(key) {
-                    var val = topicassigned[key];
-                    if (val.includes(socket)) {
-                        // console.log(topicassigned);
-                        // console.log(key);
-                        TOPIC_NAME = key;
-                    }
-                    else {
-                        console.log('Sorry Some Error has occured');
-                    }
-                    //return TOPIC_NAME
-                });
-                console.log(TOPIC_NAME);
-                var message = JSON.stringify(data);
-                console.log(message);
-                var payloads =
-                    {
-                        topic: TOPIC_NAME,
-                        partition: 0,
-                        message: {
-                            //key: SERVER_NAME,
-                            value: message
-                        }
-                    }
-
-                console.log(payloads);
-
-                return producer.init().then(function () {
-                    return producer.send(payloads);
-                })
-                    .then(function (result) {
-                        /*
-                        [ { topic: 'kafka-test-topic', partition: 0, offset: 353 } ]
-                        */
-                    });
-                // producer.send(payloads);
-            });
-
-
-
-
-
-
-
-
-
-
-
-    socket.on('disconnect', function(){
-        console.log('DISCONNECT');
+    // app.post('/postData', function (req, res) {
+    //     // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1/*');
+    //     res.send(req.body)
+    // JSON.stringify
+    socket.on('add-message',function (data,callback){
+        console.log("In Add Message : ")
+        console.log(topicassigned);
+        console.log(filledTopics);
+        let TOPIC_NAME = null;
         Object.keys(topicassigned).forEach(function(key) {
             var val = topicassigned[key];
-            if(val.includes(socket)){
-                var index = val.indexOf(socket);
-                if (index > -1) {
-                    console.log('val before updation:'+val);
-                    val.splice(index, 1);
-                    console.log('val after updation:'+val);
-                    if(val === undefined || !val.length){
-                        console.log('In delete');
-                        delete topicassigned[key];
-                    }else {
-                        topicassigned[key] = val;
-                    }
+            if (val.includes(socket)) {
+                // console.log(topicassigned);
+                // console.log(key);
+                TOPIC_NAME = key;
+            }
+            else {
+                console.log('Sorry Some Error has occured');
+            }
+            //return TOPIC_NAME
+        });
+        console.log(TOPIC_NAME);
+        var message = JSON.stringify(data);
+        console.log(message);
+        var payloads =
+            {
+                topic: TOPIC_NAME,
+                partition: 0,
+                message: {
+                    //key: SERVER_NAME,
+                    value: message
                 }
             }
 
+        //console.log(payloads);
+
+        return producer.init().then(function () {
+            return producer.send(payloads);
+        })
+            .then(function (result) {
+                /*
+                [ { topic: 'kafka-test-topic', partition: 0, offset: 353 } ]
+                */
+            });
+        // producer.send(payloads);
+    });
+
+        socket.on('stop-sharing', function(){
 
 
-                if(filledTopics.includes(key)) {
-                    var ind = filledTopics.indexOf(key);
-                    if (ind > -1) {
-                        filledTopics.splice(index, 1);
-                        topics.push(key);
+            Object.keys(topicassigned).forEach(function(key) {
+
+
+
+                var val = topicassigned[key];
+                var uidVal = topicsWUid[key];
+                if(val.includes(socket)){
+                    var index1 = val.indexOf(socket);
+                    var index2 = uidVal.indexOf(socket.username);
+                    if (index1 > -1 && index2 >-1) {
+                        console.log('val before updation:'+val);
+                        console.log('var before updation:'+uidVal);
+                        val.splice(index1, 1);
+                        uidVal.splice(index2, 1);
+                        console.log('val after updation:'+val);
+                        if(val === undefined || !val.length){
+                            console.log('In delete of topicassigned');
+                            delete topicassigned[key];
+                            if(filledTopics.includes(key)) {
+                                var ind = filledTopics.indexOf(key);
+                                if (ind > -1) {
+                                    filledTopics.splice(ind, 1);
+                                    topics.push(key);
+                                }
+                            }
+                        }else {
+                            topicassigned[key] = val;
+                        }
+
+                        if(uidVal === undefined || !uidVal.length){
+                            console.log('In delete of topicsWUID');
+                            delete topicsWUid[key];
+                            if(filledTopics.includes(key)) {
+                                var ind = filledTopics.indexOf(key);
+                                if (ind > -1) {
+                                    filledTopics.splice(ind, 1);
+                                    topics.push(key);
+                                }
+                            }
+                        }else {
+                            topicsWUid[key] = uidVal;
+                        }
                     }
                 }
 
 
-            //}
+
+
+
+
+                //}
+
+
+            });
 
 
         });
@@ -206,16 +241,8 @@ io.sockets.on("connection",function(socket) {
 
 
 
-        // Object.keys(rooms).forEach(function(key) {
-        //     var users = rooms[key];
-        //     if(users.includes(socket.username)){
-        //         var index = users.indexOf(socket);
-        //         if (index > -1) {
-        //             users.splice(index, 1);
-        //             rooms[key] = users;
-        //         }
-        //     }
-        // });
+    socket.on('disconnect', function(){
+        console.log('DISCONNECT');
 
 
 
@@ -294,8 +321,8 @@ http.listen(PORT_NUMBER, () => {
         })
 
 
-    console.log("val:" + arr);
-    return arr;
+        console.log("val:" + arr);
+        return arr;
 
 
 
