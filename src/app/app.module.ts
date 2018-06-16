@@ -20,7 +20,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MaterialModule } from './material.module';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import {MatSnackBarModule } from '@angular/material/snack-bar';
-import { Globals } from './globals'
+import { Globals } from './globals';
+import { SharedListsComponent } from './shared-lists/shared-lists.component'
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { Globals } from './globals'
     FooterComponent,
     NavbarComponent,
     DialogBoxComponent,
+    SharedListsComponent,
   ],
   imports: [
     BrowserModule,

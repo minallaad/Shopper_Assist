@@ -1,0 +1,15 @@
+
+<mat-card-content class="container">
+  <form class="example-form">
+    <!--<mat-form-field class="example-full-width">-->
+    <input matInput placeholder="Enter Item" #box (keyup.enter)="addItemtoList(box.value); box.value =' '"  class="form-control" >
+    <!--</mat-form-field>-->
+  </form>
+  <br>
+  <div *ngFor="let item of list" class="list-group">
+    <mat-card *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)"><h4><b>{{item.name}}</b></h4></mat-card>
+    <mat-card *ngIf="!item.isPresent" ng-model ="item.name" (click)="addItemtoList(item.name)"><h4><s>{{item.name}}</s></h4></mat-card>
+  </div>
+
+</mat-card-content>
+
