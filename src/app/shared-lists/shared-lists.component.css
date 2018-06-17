@@ -1,11 +1,37 @@
+/*.container{*/
+
+    /*margin-top: 10%;*/
+/*}*/
+
+/*.example-form{*/
+    /*width:85%;*/
+    /*position:absolute;*/
+
+/*}*/
+
+/*.add_user{*/
+    /*position:fixed;*/
+    /*right: 3rem;*/
+    /*top: 15rem;*/
+/*}*/
+/*.app-fab--absolute{*/
+    /*position: fixed;*/
+    /*bottom: 1rem;*/
+    /*right: 1rem;*/
+/*}*/
+
+/*.list-group{*/
+    /*margin-top:8%;*/
+/*}*/
+
+
 .container{
 
     margin-top: 10%;
 }
 
 .example-form{
-    width:80%;
-    right:2rem;
+    width:75%;
     position:fixed;
 
 }

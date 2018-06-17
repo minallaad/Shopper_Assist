@@ -11,6 +11,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {Globals} from "../globals";
 
+
 @Component({
   selector: 'app-shared-lists',
   templateUrl: './shared-lists.component.html',
@@ -31,8 +32,8 @@ export class SharedListsComponent implements OnInit {
 
 
         iconRegistry.addSvgIcon(
-            'Save_list',
-            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-save_alt-24px.svg'));
+            'ShareList',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/outline-group-24px.svg'));
 
     }
 

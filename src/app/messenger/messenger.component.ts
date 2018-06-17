@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-messenger',
@@ -11,8 +12,10 @@ import {MatIconRegistry} from '@angular/material';
 export class MessengerComponent implements OnInit {
 
   Messages = [];
-  constructor( iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,private  http:HttpClient) {
+  constructor( iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,private  http:HttpClient,private auth: AuthService) {
 
+
+      auth.handleAuthentication();
       iconRegistry.addSvgIcon(
           'Similey',
           sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-insert_emoticon-24px.svg'));

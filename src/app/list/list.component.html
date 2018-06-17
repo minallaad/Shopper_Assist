@@ -1,5 +1,5 @@
 
-<mat-card-content class="container">
+<mat-card-content class="container" *ngIf="auth.isAuthenticated()">
         <form class="example-form">
         <!--<mat-form-field class="example-full-width">-->
           <input matInput placeholder="Enter Item" #box (keyup.enter)="addItemtoList(box.value); box.value =' '"  class="form-control" >
@@ -8,8 +8,8 @@
       </form>
         <br>
         <div *ngFor="let item of list" class="list-group">
-          <mat-card *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)"><h4><b>{{item.name}}</b></h4></mat-card>
-          <mat-card *ngIf="!item.isPresent" ng-model ="item.name" (click)="addItemtoList(item.name)"><h4><s>{{item.name}}</s></h4></mat-card>
+          <mat-card *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)"><mat-checkbox><h4><b>{{item.name}}</b></h4></mat-checkbox></mat-card>
+          <mat-card *ngIf="!item.isPresent" ng-model ="item.name" (click)="addItemtoList(item.name)"><mat-checkbox [checked]="true"><h4><s>{{item.name}}</s></h4></mat-checkbox></mat-card>
 
 
             <!--<mat-card *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)">-->
@@ -29,7 +29,7 @@
         </div>
 
 </mat-card-content>
-<button mat-fab class="app-fab--absolute" matTooltip="Save your list for future use">
+<button mat-fab class="app-fab--absolute" matTooltip="Save your list for future use" *ngIf="auth.isAuthenticated()">
   <mat-icon  (click)="openDialog()" aria-label="Example icon-button with a heart icon" svgIcon="Save_list" ></mat-icon>
 </button>
 

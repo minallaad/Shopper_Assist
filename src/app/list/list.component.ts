@@ -10,6 +10,7 @@ import {DialogBoxComponent} from "../dialog-box/dialog-box.component";
 import {Item} from "../Models/list.model";
 import {userList} from "../Models/userList.model";
 import { Globals } from '../globals';
+import {SaveListdialogBoxComponent} from "../save-listdialog-box/save-listdialog-box.component";
 
 // class Item{
 //     public name:string;
@@ -103,20 +104,6 @@ export class ListComponent implements OnInit,OnDestroy {
       this.kafkaService.sendMessage(this.list);
 
 
-    //
-    // this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
-    //
-    //   headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
-    // })
-    // .subscribe(data => {
-    //   console.log(data);
-    // });
-
-      //
-      // if (itemName) {
-      //     itemName = '';
-      // }
-
   }
 
     addNewUser() {
@@ -143,6 +130,18 @@ export class ListComponent implements OnInit,OnDestroy {
     openDialog()
     {
 
+        const dialogRef = this.dialog.open(SaveListdialogBoxComponent,{
+            width: '250px',
+            height: '200px',
+
+        });
+
+
+        dialogRef.afterClosed().subscribe( (showSnackBar: boolean) => {
+          //  console.log(this.globals.usersList);
+          //  this.kafkaService.addToRoom(this.globals.usersList);
+          //  console.log('closing');
+        });
     }
 
   removeFromlist(item:string)

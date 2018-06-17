@@ -17,3 +17,6 @@ app-navbar {
   margin-left: 15%;
 }
 
+.mat-elevation-z6{
+  position: relative;
+}

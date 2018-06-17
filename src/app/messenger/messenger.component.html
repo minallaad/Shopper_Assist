@@ -1,4 +1,4 @@
-<mat-card-content class="container">
+<mat-card-content class="container" *ngIf="auth.isAuthenticated()">
           <form class="example-form ">
             <input matInput placeholder=" " #box (keyup.enter)="sendMessage(box.value);"  class="form-control" >
               <button mat-fab class="app-fab--absolute">
