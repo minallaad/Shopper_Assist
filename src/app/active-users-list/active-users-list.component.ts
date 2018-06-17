@@ -23,7 +23,7 @@ export class ActiveUsersListComponent implements OnInit {
 
     console.log(typeof  this.globals.usersList.users);
     console.log(this.globals.usersList.users);
-    this.users = this.globals.usersList.users;
+   // this.users = this.globals.usersList.users;
 
 
   }

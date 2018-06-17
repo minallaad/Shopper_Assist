@@ -39,30 +39,7 @@ export class AppComponent implements  OnInit{
     ngOnInit(){
 
 
-        this.connection = this.conn.checkRequest().subscribe(message  => {
 
-
-
-            if(message.toString().includes(" wants to share list."))
-            {
-                console.log(message);
-                console.log("in dialog");
-
-                const dialogRef = this.dialog.open(ConfirmationDialogBoxComponent,{
-                    width: '250px',
-                    height: '200px',
-                    data:{consent : this.consent , message: message}
-
-                });
-                //const snack = this.snackBar.open('Snack bar open before dialog');
-
-
-                dialogRef.afterClosed().subscribe( data => {
-                    console.log(data.consent);
-                    this.conn.sendResponse(data.consent);
-                });
-            }
-        })
 
 
 

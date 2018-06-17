@@ -89,7 +89,7 @@ io.sockets.on("connection",function(socket) {
             temproom.forEach(user => {
                 if(user in usernames) {
                     console.log('User emiting');
-                    usernames[user].emit('request-message-1', request);
+                    usernames[user].emit('message', request);
                     // usernames[user].consent = confirm
                     //console.log(usernames[user].consent);
                     //console.log(response);
@@ -98,7 +98,7 @@ io.sockets.on("connection",function(socket) {
 
                     usernames[user].on('request-message-2', function (response) {
                         console.log('User replied');
-                        usernames[user].consent = response
+                        usernames[user].consent = response;
                         if (response) {
                             checkroom.push(user);
                         }

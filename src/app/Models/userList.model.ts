@@ -1,10 +1,12 @@
 export class userList{
     public userName:string;
-    public users = [];
+    public users:object;
+    //public newusers:object
 
-    constructor(userName: string , users:any)
+    constructor(userName: string , users:object)
     {
         this.userName = userName;
         this.users = users;
+
     }
 }

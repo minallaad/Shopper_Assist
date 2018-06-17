@@ -49,16 +49,16 @@ export class KafkaService {
     }
 
 /*Reciever functions checkRequest and sendResponse*/
-  checkRequest(){
-        let observable = new Observable(observer => {
-            this.socket.on('request-message-1', (data) => {
-                console.log(data);
-                observer.next(data);
-            });
-        })
-        return observable;
-
-    }
+  // checkRequest(){
+  //       let observable = new Observable(observer => {
+  //           this.socket.on('request-message-1', (data) => {
+  //               console.log(data);
+  //               observer.next(data);
+  //           });
+  //       })
+  //       return observable;
+  //
+  //   }
 
 
 

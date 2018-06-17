@@ -12,6 +12,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Globals} from "../globals";
 import {MatBottomSheet} from '@angular/material';
 import {ActiveUsersListComponent} from "../active-users-list/active-users-list.component";
+import {ConfirmationDialogBoxComponent} from "../confirmation-dialog-box/confirmation-dialog-box.component";
 
 
 ;
@@ -46,18 +47,46 @@ export class SharedListsComponent implements OnInit {
     connection:any;
     list : Item[] = [];
     usersList: userList;
+    users = [];
     consent : boolean;
 
 
     ngOnInit() {
         console.log("in list");
 
+
+
         this.connection = this.kafkaService.getMessage().subscribe(message =>{
+            console.log(message.toString().includes("wants to share"));
             console.log(message);
 
 
+            if(message.toString().includes("wants to share"))
+            {
+                console.log(message);
+                console.log("in dialog");
+
+                const dialogRef = this.dialog.open(ConfirmationDialogBoxComponent,{
+                    width: '250px',
+                    height: '200px',
+                    data:{consent : this.consent , message: message}
+
+                });
+                //const snack = this.snackBar.open('Snack bar open before dialog');
+
+
+                dialogRef.afterClosed().subscribe( data => {
+                    console.log(data);
+                    this.kafkaService.sendResponse(data);
+                });
+            }
+            else
+            {
+
                 this.list = JSON.parse(message.toString());
                 console.log(this.list);
+            }
+
 
 
         })
@@ -129,14 +158,18 @@ export class SharedListsComponent implements OnInit {
             this.kafkaService.checkRoom(this.globals.usersList).subscribe(message =>
             {
                 console.log(message);
-            //     this.globals.usersList.users = message;
-            // if(this.globals.usersList.users != undefined && this.globals.usersList.users.length != 0)
-            // {
-            //     this.kafkaService.addToRoom(this.globals.usersList);
-            // }
-            // else{
-            //     console.log("No one accepted your request");
-            // }
+                this.globals.usersList.users = message;
+                // message.foreach(msg =>{
+                //
+                // });
+                //Array.from(message, x => x);
+                if(this.globals.usersList.users != undefined )
+                {
+                    this.kafkaService.addToRoom(this.globals.usersList);
+                }
+                else{
+                    console.log("No one accepted your request");
+                }
 
         })
             //     this.usersList = this.globals.usersList;

@@ -71,7 +71,8 @@ import { ConfirmationDialogBoxComponent } from './confirmation-dialog-box/confir
   ],
   entryComponents: [
       DialogBoxComponent,
-      ActiveUsersListComponent
+      ActiveUsersListComponent,
+      ConfirmationDialogBoxComponent
   ],
   bootstrap: [AppComponent]
 })
