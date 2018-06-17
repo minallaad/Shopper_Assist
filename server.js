@@ -88,30 +88,31 @@ io.sockets.on("connection",function(socket) {
         let socketArray = [];
         let nameArray = [];
         //topicassiged[topicass] = [];
-        room.forEach(user => {
-            // userlist.push(user);
-            if(topics !== null || topics!==[]) {
-                topicass = topics.pop();
-                if (user in usernames) {
-                    usernames[user].join(topicass);
-                    filledTopics.push(topicass);
-                    socketArray.push(usernames[user]);
-                    nameArray.push(user);
-                    // topicassiged[topicass].push(usernames[user]);
-                }
-                else
-                {
-                    console.log('All Topics Filled');
-                }
 
+        if(topics !== null || topics!==[]) {
+            topicass = topics.pop();
+            filledTopics.push(topicass);
 
-            } else {
-                console.log('User is not Online Or Has Left');
-                callback('User is not Online Or Has Left');
-            }
+            room.forEach(user => {
+                // userlist.push(user);
+                    if (user in usernames) {
+                        usernames[user].join(topicass);
+                        socketArray.push(usernames[user]);
+                        nameArray.push(user);
+                        // topicassiged[topicass].push(usernames[user]);
+                    }
+                    else
+                    {
+                        console.log('All Topics Filled');
+                    }
 
+            });
 
-        });
+        } else {
+            console.log('User is not Online Or Has Left');
+            callback('User is not Online Or Has Left');
+        }
+
         topicassigned[topicass] = socketArray;
         topicsWUid[topicass] = nameArray;
         //console.log(topicassigned);

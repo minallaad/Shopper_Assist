@@ -5,10 +5,12 @@ import {MessengerComponent} from "./messenger/messenger.component";
 import {StoresComponent} from "./stores/stores.component";
 import {RecipesComponent} from "./recipes/recipes.component";
 import {AuthGuard} from "./services/auth.guard";
+import {SharedListsComponent} from "./shared-lists/shared-lists.component";
 
 const appRoutes: Routes = [
 
   // {path: '', redirectTo: 'list', pathMatch: 'full'},
+  {path: 'shared-list', component:SharedListsComponent , canActivate: [AuthGuard]} ,
   {path: 'list', component: ListComponent,canActivate: [AuthGuard] },
   {path: 'Messenger', component: MessengerComponent,canActivate: [AuthGuard] },
   {path: 'Stores-near-me', component: StoresComponent,canActivate: [AuthGuard] },
