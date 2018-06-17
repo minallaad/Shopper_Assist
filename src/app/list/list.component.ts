@@ -70,15 +70,7 @@ export class ListComponent implements OnInit,OnDestroy {
     })
 
       this.room_shared = parseInt(localStorage.getItem("room_shared"));
-      if(this.room_shared)
-      {
-          this.snackBar.open("You are sharing you list", "Stop Sharing" , {
 
-          }).onAction().subscribe(() => {
-              console.log("You have stopped sharing your list");
-              this.kafkaService.stopSharing();
-          });
-      }
   }
 
 

@@ -8,7 +8,7 @@ var express = require('express'),
     //rooms format : connection starter ID:Array of Socket ID of users in room
     //topicsassigned format: Topic name: Array of Socket ID of users
     //r2t format: Topic name : Connection Starter ID
-    filledTopics = [],topics = ['Test0','Test1','Test2'],usernames = {}, topicassigned = {};
+    filledTopics = [],topics = ['Test0','Test1','Test2'],usernames = {}, topicassigned = {},topicsWUid = {};
 
 let TOTAL_TOPICS = ['Test0','Test1','Test2'];
 var room;
@@ -48,23 +48,27 @@ TOTAL_TOPICS.forEach(topic => {
     shell.exec('~/Softwares/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + topic);
 });
 
-let topicsWUid = {};
+
 io.sockets.on("connection",function(socket) {
     console.log("New Connection");
 
     socket.on('new user',function (data,callback) {
         socket.username = data;
         usernames[socket.username] = socket;
+        console.log("On New user : " + Object.keys(usernames))
         Object.keys(topicsWUid).forEach(function (key) {
             var val = topicsWUid[key];
             if (val.includes(socket.username)) {
                 console.log(socket.username + ' joined back to ' + key);
+                topicassigned[key].push(socket);
                 socket.join(key);
+            }else{
+
             }
 
             //usernames.push(socket.username);
             //console.log(usernames);
-            console.log("On New user : " + Object.keys(usernames));
+
 
         });
     });

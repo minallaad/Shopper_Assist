@@ -4,21 +4,21 @@ import * as io from 'socket.io-client';
 
 export class KafkaService {
 
-  private url = 'https://friday-gclistings.localtunnel.me';
-  // private url = 'http://localhost:8092';
+  // private url = 'https://friday-gclistings.localtunnel.me';
+  private url = 'http://localhost:8092';
   private socket = io(this.url);
 
- private room_shared : boolean = false;
+ //private room_shared : boolean = false;
 
 
 
   sendMessage(message) {
 
-    if( this.room_shared )
-    {
+    // if( this.room_shared )
+    // {
         this.socket.emit('add-message', message);
         console.log("MESSAGE SENT");
-    }
+    //}
 
   }
 
@@ -31,14 +31,14 @@ export class KafkaService {
   addToRoom(nick_names ){
     console.log(typeof nick_names);
     console.log(nick_names);
-    this.room_shared = true;
+    //this.room_shared = true;
     localStorage.setItem("room_shared","1");
     this.socket.emit('Room request',nick_names);
 
   }
 
   stopSharing(){
-      this.room_shared = false;
+      //this.room_shared = false;
       localStorage.setItem("room_shared","0");
       this.socket.emit('stop-sharing');
   }

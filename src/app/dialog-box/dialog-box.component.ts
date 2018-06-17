@@ -31,6 +31,13 @@ export class DialogBoxComponent implements OnInit {
     username :string;
     users = [];
     private usersList : userList;
+    visible: boolean = true;
+    selectable: boolean = true;
+    removable: boolean = true;
+    addOnBlur: boolean = true;
+
+    // Enter, comma
+    separatorKeysCodes = [ENTER, COMMA];
 
     constructor( iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
     public dialogRef: MatDialogRef<DialogBoxComponent>,  @Inject(MAT_DIALOG_DATA) public data: any,private globals: Globals,public snackBar: MatSnackBar,private kafkaService: KafkaService) {
@@ -53,35 +60,27 @@ export class DialogBoxComponent implements OnInit {
         this.usersList = usersListHere;
         this.globals.usersList = this.usersList;
 
-        this.snackBar.open("You are sharing you list", "Stop Sharing" , {
+        if(this.usersList.users !== [])
+        {
+            this.snackBar.open("You are sharing your list", "Stop Sharing" , {
 
-        }).onAction().subscribe(() => {
-            console.log("You have stopped sharing your list");
-            this.kafkaService.stopSharing();
-        });
+            }).onAction().subscribe(() => {
+                console.log("You have stopped sharing your list");
+                this.kafkaService.stopSharing();
+            });
+        }
+
 
 
         this.dialogRef.close();
     }
      ngOnInit()
      {
-            // this.users = this.data.users;
+
+
+
      }
-    // Confirm()
-    // {
-    //     const username =localStorage.getItem('username');
-    //     const usersList = new userList(username,this.users);
-    //
-    //
-    // }
 
-    visible: boolean = true;
-    selectable: boolean = true;
-    removable: boolean = true;
-    addOnBlur: boolean = true;
-
-    // Enter, comma
-    separatorKeysCodes = [ENTER, COMMA];
 
 
 

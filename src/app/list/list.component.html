@@ -10,6 +10,22 @@
         <div *ngFor="let item of list" class="list-group">
           <mat-card *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)"><h4><b>{{item.name}}</b></h4></mat-card>
           <mat-card *ngIf="!item.isPresent" ng-model ="item.name" (click)="addItemtoList(item.name)"><h4><s>{{item.name}}</s></h4></mat-card>
+
+
+            <!--<mat-card *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)">-->
+                <!--<mat-checkbox [formControl]="disableSelect">-->
+                    <!--<h4>-->
+                        <!--<b>{{item.name}}</b>-->
+                    <!--</h4>-->
+                <!--</mat-checkbox>-->
+            <!--</mat-card>-->
+            <!--<mat-card *ngIf="!item.isPresent" ng-model ="item.name" (click)="addItemtoList(item.name)">-->
+                <!--<mat-checkbox [formControl]="disableSelect">-->
+                    <!--<h4>-->
+                        <!--<s>{{item.name}}</s>-->
+                    <!--</h4>-->
+                <!--</mat-checkbox>-->
+            <!--</mat-card>-->
         </div>
 
 </mat-card-content>
