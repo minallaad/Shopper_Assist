@@ -4,8 +4,8 @@ import * as io from 'socket.io-client';
 
 export class KafkaService {
 
-  private url = 'https://friday-gclistings.localtunnel.me';
-  //private url = 'http://localhost:8092';
+  //private url = 'https://friday-gclistings.localtunnel.me';
+  private url = 'http://localhost:8092';
   private socket = io(this.url);
 
  //private room_shared : boolean = false;
@@ -33,7 +33,15 @@ export class KafkaService {
     console.log(nick_names);
     //this.room_shared = true;
     localStorage.setItem("room_shared","1");
-    this.socket.emit('Room request',nick_names);
+    this.socket.emit('Request',nick_names);
+      this.socket.on('request-message', (data,fn) => {
+          if (data.toString().includes("wants to share")) {
+              fn(false);
+          }
+      });
+    this.socket.emit('Room request',nick_names ,function(confirm){
+        console.log(confirm);
+      });
 
   }
 
@@ -47,9 +55,13 @@ export class KafkaService {
   getMessage() {
     let observable = new Observable(observer => {
       //this.socket = io(this.url);
-      this.socket.on('message', (data) => {
-
-        observer.next(data);
+      this.socket.on('message', (data,fn) => {
+          if(data.toString().includes("wants to share")){
+              fn(false);
+          }
+        else {
+              observer.next(data);
+          }
 
       });
       // return () => {

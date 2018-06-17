@@ -65,8 +65,17 @@ export class ListComponent implements OnInit,OnDestroy {
         console.log(message);
         console.log(typeof message);
 
-        this.list = JSON.parse(message.toString());
-        console.log(this.list);
+        if(message.toString().includes("wants to share"))
+        {
+           console.log(message);
+        }
+        else
+        {
+            this.list = JSON.parse(message.toString());
+            console.log(this.list);
+        }
+
+
 
     })
 

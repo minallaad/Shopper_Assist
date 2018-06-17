@@ -8,7 +8,7 @@ var express = require('express'),
     //rooms format : connection starter ID:Array of Socket ID of users in room
     //topicsassigned format: Topic name: Array of Socket ID of users
     //r2t format: Topic name : Connection Starter ID
-    filledTopics = [],topics = ['Test0','Test1','Test2'],usernames = {}, topicassigned = {},topicsWUid = {};
+    filledTopics = [],topics = ['Test0','Test1','Test2'],usernames = {}, topicassigned = {},topicsWUid = {},response = [],u2r = [];;
 
 let TOTAL_TOPICS = ['Test0','Test1','Test2'];
 var room;
@@ -53,6 +53,7 @@ io.sockets.on("connection",function(socket) {
     console.log("New Connection");
 
     socket.on('new user',function (data,callback) {
+        socket.consent = true;
         socket.username = data;
         usernames[socket.username] = socket;
         console.log("On New user : " + Object.keys(usernames))
@@ -78,10 +79,31 @@ io.sockets.on("connection",function(socket) {
         clientId: 'no-kafka-client'
     });
 
+    socket.on('Request',function (data,callback) {
+        console.log("In Request Start : "+Object.keys(usernames));
+        let temproom = data.users;
+        var username = data.userName;
+        var request = username +" wants to share";
+
+        temproom.forEach(user => {
+            usernames[user].emit('request-message',request,function(confirm){
+            usernames[user].consent = confirm
+                //console.log(usernames[user].consent);
+                //console.log(response);
+            });
+        });
+
+
+        //io.to('Temp-Room').emit('message',request);
+
+    });
+
+
     socket.on('Room request',function (data,callback) {
         console.log("In Room request Start : "+Object.keys(usernames));
         //room = data.userName;
         let room = data.users;
+
         room.push(data.userName);
         console.log(room);
         let topicass = null;
@@ -96,21 +118,31 @@ io.sockets.on("connection",function(socket) {
             room.forEach(user => {
                 // userlist.push(user);
                     if (user in usernames) {
-                        usernames[user].join(topicass);
-                        socketArray.push(usernames[user]);
-                        nameArray.push(user);
-                        // topicassiged[topicass].push(usernames[user]);
+                        console.log('Consent consent consent...');
+                        if (user.consent) {
+
+                            usernames[user].join(topicass);
+                            socketArray.push(usernames[user]);
+                            nameArray.push(user);
+                            // topicassiged[topicass].push(usernames[user]);
+                        }
+
+                        else{
+                            socket.emit('stop-sharing');
+                            callback('You have no users left stop further processing here');
+                        }
                     }
                     else
                     {
-                        console.log('All Topics Filled');
+                        console.log('User is not Online Or Has Declined Invitation');
+                        //callback('User is not Online Or Has Left');
                     }
 
             });
 
         } else {
-            console.log('User is not Online Or Has Left');
-            callback('User is not Online Or Has Left');
+            console.log('All Topic Filled Please try after sometime');
+
         }
 
         topicassigned[topicass] = socketArray;
