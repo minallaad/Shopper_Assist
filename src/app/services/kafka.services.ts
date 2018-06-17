@@ -28,17 +28,44 @@ export class KafkaService {
       console.log("User set");
   }
 
+/*Emitter functions checkRoom and checkAnomaly*/
+  checkRoom(nick_names){
+      this.socket.emit('Request',nick_names,function(usersWilling){
+          console.log(usersWilling);
+      });
+
+  }
+
+//checkAnomaly particularly not required you can check by usersWilling
+  checkAnomaly(nick_names){
+        this.socket.emit('Check',nick_names,function(confirm){
+            console.log(confirm);
+        });
+    }
+
+/*Reciever functions checkRequest and sendResponse*/
+  checkRequest(){
+        let observable = new Observable(observer => {
+            this.socket.on('request-message-1', (data) => {
+                observer.next(data);
+            });
+        })
+        return observable;
+
+    }
+
+
+
+   sendResponse(response){
+        this.socket.emit('request-message-2',response);
+    }
+
   addToRoom(nick_names ){
     console.log(typeof nick_names);
     console.log(nick_names);
     //this.room_shared = true;
     localStorage.setItem("room_shared","1");
-    this.socket.emit('Request',nick_names);
-      this.socket.on('request-message', (data,fn) => {
-          if (data.toString().includes("wants to share")) {
-              fn(false);
-          }
-      });
+
     this.socket.emit('Room request',nick_names ,function(confirm){
         console.log(confirm);
       });
@@ -55,13 +82,13 @@ export class KafkaService {
   getMessage() {
     let observable = new Observable(observer => {
       //this.socket = io(this.url);
-      this.socket.on('message', (data,fn) => {
-          if(data.toString().includes("wants to share")){
-              fn(false);
-          }
-        else {
+      this.socket.on('message', (data) => {
+      //     if(data.toString().includes("wants to share")){
+      //         fn(false);
+      //     }
+      //   else {
               observer.next(data);
-          }
+          // }
 
       });
       // return () => {

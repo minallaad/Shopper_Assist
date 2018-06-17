@@ -8,7 +8,7 @@ var express = require('express'),
     //rooms format : connection starter ID:Array of Socket ID of users in room
     //topicsassigned format: Topic name: Array of Socket ID of users
     //r2t format: Topic name : Connection Starter ID
-    filledTopics = [],topics = ['Test0','Test1','Test2'],usernames = {}, topicassigned = {},topicsWUid = {},response = [],u2r = [];;
+    filledTopics = [],topics = ['Test0','Test1','Test2'],usernames = {}, topicassigned = {},topicsWUid = {},response = [],u2r = [],checkroom = [];
 
 let TOTAL_TOPICS = ['Test0','Test1','Test2'];
 var room;
@@ -82,21 +82,53 @@ io.sockets.on("connection",function(socket) {
     socket.on('Request',function (data,callback) {
         console.log("In Request Start : "+Object.keys(usernames));
         let temproom = data.users;
-        var username = data.userName;
+        let username = data.userName;
         var request = username +" wants to share";
 
         temproom.forEach(user => {
-            usernames[user].emit('request-message',request,function(confirm){
-            usernames[user].consent = confirm
+            usernames[user].emit('request-message-1', request);
+            // usernames[user].consent = confirm
+            //console.log(usernames[user].consent);
+            //console.log(response);
+        });
+
+
+        temproom.forEach(user => {
+            usernames[user].on('request-message-2',function(response){
+                usernames[user].consent = response
+                if(response){
+                    checkroom.push(user);
+                }
                 //console.log(usernames[user].consent);
                 //console.log(response);
             });
         });
 
+        callback(checkroom);
 
         //io.to('Temp-Room').emit('message',request);
 
     });
+
+
+    socket.on('Check',function (data,callback) {
+
+    if(!data.users.length || !checkroom.length){
+        callback(false);
+
+    }
+
+    else{
+        callback(true);
+    }
+
+
+        //io.to('Temp-Room').emit('message',request);
+
+    });
+
+
+
 
 
     socket.on('Room request',function (data,callback) {
@@ -128,7 +160,8 @@ io.sockets.on("connection",function(socket) {
                         }
 
                         else{
-                            socket.emit('stop-sharing');
+                            //socket.emit('stop-sharing');
+                            socket.kill = true;
                             callback('You have no users left stop further processing here');
                         }
                     }
@@ -145,15 +178,18 @@ io.sockets.on("connection",function(socket) {
 
         }
 
-        topicassigned[topicass] = socketArray;
-        topicsWUid[topicass] = nameArray;
-        //console.log(topicassigned);
-        // TOPIC_NAME.push(room);
-        //     shell.exec('~/Softwares/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + TOPIC_NAME[TOPIC_NAME.length-1]);
-        console.log("Room Job Completed");
-        console.log("After Room request : ");
-        console.log(topicassigned);
-        console.log(filledTopics);
+        if(!socket.kill) {
+            topicassigned[topicass] = socketArray;
+            topicsWUid[topicass] = nameArray;
+            //console.log(topicassigned);
+            // TOPIC_NAME.push(room);
+            //     shell.exec('~/Softwares/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + TOPIC_NAME[TOPIC_NAME.length-1]);
+            console.log("Room Job Completed");
+            console.log("After Room request : ");
+            console.log(topicassigned);
+            console.log(filledTopics);
+        }
+
 
 
 
