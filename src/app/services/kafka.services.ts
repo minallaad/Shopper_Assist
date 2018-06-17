@@ -7,6 +7,7 @@ export class KafkaService {
   //private url = 'https://friday-gclistings.localtunnel.me';
   private url = 'http://localhost:8092';
   private socket = io(this.url);
+  private usersWilling ;
 
  //private room_shared : boolean = false;
 
@@ -30,10 +31,14 @@ export class KafkaService {
 
 /*Emitter functions checkRoom and checkAnomaly*/
   checkRoom(nick_names){
-      this.socket.emit('Request',nick_names,function(usersWilling){
-          console.log(usersWilling);
-      });
 
+     let observable = new Observable(observer => {
+         this.socket.emit('Request',nick_names,function(usersWilling){
+             observer.next(usersWilling);
+             //this.usersWilling = usersWilling;
+         });
+     })
+     return  observable;
   }
 
 //checkAnomaly particularly not required you can check by usersWilling
@@ -47,6 +52,7 @@ export class KafkaService {
   checkRequest(){
         let observable = new Observable(observer => {
             this.socket.on('request-message-1', (data) => {
+                console.log(data);
                 observer.next(data);
             });
         })

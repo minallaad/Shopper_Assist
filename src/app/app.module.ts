@@ -23,7 +23,8 @@ import {MatSnackBarModule } from '@angular/material/snack-bar';
 import { Globals } from './globals';
 import { SharedListsComponent } from './shared-lists/shared-lists.component';
 import { SaveListdialogBoxComponent } from './save-listdialog-box/save-listdialog-box.component';
-import { ActiveUsersListComponent } from './active-users-list/active-users-list.component'
+import { ActiveUsersListComponent } from './active-users-list/active-users-list.component';
+import { ConfirmationDialogBoxComponent } from './confirmation-dialog-box/confirmation-dialog-box.component'
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ActiveUsersListComponent } from './active-users-list/active-users-list.
     SharedListsComponent,
     SaveListdialogBoxComponent,
     ActiveUsersListComponent,
+    ConfirmationDialogBoxComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,8 @@ import { ActiveUsersListComponent } from './active-users-list/active-users-list.
       Globals
   ],
   entryComponents: [
-      DialogBoxComponent
+      DialogBoxComponent,
+      ActiveUsersListComponent
   ],
   bootstrap: [AppComponent]
 })

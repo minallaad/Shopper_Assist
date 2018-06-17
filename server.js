@@ -85,27 +85,37 @@ io.sockets.on("connection",function(socket) {
         let username = data.userName;
         var request = username +" wants to share";
 
-        temproom.forEach(user => {
-            usernames[user].emit('request-message-1', request);
-            // usernames[user].consent = confirm
-            //console.log(usernames[user].consent);
-            //console.log(response);
-        });
 
+            temproom.forEach(user => {
+                if(user in usernames) {
+                    console.log('User emiting');
+                    usernames[user].emit('request-message-1', request);
+                    // usernames[user].consent = confirm
+                    //console.log(usernames[user].consent);
+                    //console.log(response);
 
-        temproom.forEach(user => {
-            usernames[user].on('request-message-2',function(response){
-                usernames[user].consent = response
-                if(response){
-                    checkroom.push(user);
+                    console.log('User replying');
+
+                    usernames[user].on('request-message-2', function (response) {
+                        console.log('User replied');
+                        usernames[user].consent = response
+                        if (response) {
+                            checkroom.push(user);
+                        }
+                        //console.log(usernames[user].consent);
+                        //console.log(response);
+                    });
                 }
-                //console.log(usernames[user].consent);
-                //console.log(response);
             });
-        });
 
-        callback(checkroom);
 
+
+        function check(){
+            console.log(checkroom);
+            callback(checkroom);
+        }
+
+        setTimeout(check,30000);
         //io.to('Temp-Room').emit('message',request);
 
     });
@@ -149,22 +159,22 @@ io.sockets.on("connection",function(socket) {
 
             room.forEach(user => {
                 // userlist.push(user);
-                    if (user in usernames) {
-                        console.log('Consent consent consent...');
-                        if (user.consent) {
+                //     if (user in usernames) {
+                //         console.log('Consent consent consent...');
+                //         if (user.consent) {
 
                             usernames[user].join(topicass);
                             socketArray.push(usernames[user]);
                             nameArray.push(user);
                             // topicassiged[topicass].push(usernames[user]);
-                        }
-
-                     }
-                    else
-                    {
-                        console.log('User is not Online Or Has Declined Invitation');
-                        //callback('User is not Online Or Has Left');
-                    }
+                    //     }
+                    //
+                    //  }
+                    // else
+                    // {
+                    //     console.log('User is not Online Or Has Declined Invitation');
+                    //     //callback('User is not Online Or Has Left');
+                    // }
 
             });
 
@@ -173,7 +183,7 @@ io.sockets.on("connection",function(socket) {
 
         }
 
-        if(!socket.kill) {
+
             topicassigned[topicass] = socketArray;
             topicsWUid[topicass] = nameArray;
             //console.log(topicassigned);
@@ -183,7 +193,7 @@ io.sockets.on("connection",function(socket) {
             console.log("After Room request : ");
             console.log(topicassigned);
             console.log(filledTopics);
-        }
+
 
 
 

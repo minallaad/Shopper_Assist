@@ -13,6 +13,7 @@ import {Globals} from "../globals";
 import {MatBottomSheet} from '@angular/material';
 import {ActiveUsersListComponent} from "../active-users-list/active-users-list.component";
 
+
 ;
 
 
@@ -45,25 +46,19 @@ export class SharedListsComponent implements OnInit {
     connection:any;
     list : Item[] = [];
     usersList: userList;
+    consent : boolean;
 
 
     ngOnInit() {
         console.log("in list");
+
         this.connection = this.kafkaService.getMessage().subscribe(message =>{
             console.log(message);
 
 
-            if(message.toString().includes(" Wants to share list."))
-            {
-              console.log(message);
-            }
-            else
-            {
-
                 this.list = JSON.parse(message.toString());
                 console.log(this.list);
 
-            }
 
         })
     }
@@ -130,18 +125,25 @@ export class SharedListsComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe( (showSnackBar: boolean) => {
             console.log(this.globals.usersList);
+
+            this.kafkaService.checkRoom(this.globals.usersList).subscribe(message =>
+            {
+                console.log(message);
+            //     this.globals.usersList.users = message;
+            // if(this.globals.usersList.users != undefined && this.globals.usersList.users.length != 0)
+            // {
+            //     this.kafkaService.addToRoom(this.globals.usersList);
+            // }
+            // else{
+            //     console.log("No one accepted your request");
+            // }
+
+        })
             //     this.usersList = this.globals.usersList;
             //     //Calling Kafka services for socket connection here
-            this.kafkaService.addToRoom(this.globals.usersList);
-            console.log('closing');
-            // if (showSnackBar) {
-            //     const a = document.createElement('a');
-            //     a.click();
-            //     a.remove();
-            //     this.snackBar.open('User has been Added Successfully!', '', {
-            //         duration: 2000,
-            //     });
-            // }
+
+
+
         });
 
 

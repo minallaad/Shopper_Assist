@@ -56,18 +56,31 @@ export class DialogBoxComponent implements OnInit {
 
     Confirm() {
 
-        var usersListHere = new userList(this.username,this.users);
-        this.usersList = usersListHere;
-        this.globals.usersList = this.usersList;
-
-        if(this.usersList.users !== [])
+        if(this.users.length === 0 )
         {
-            this.snackBar.open("You are sharing your list", "Stop Sharing" , {
+                this.snackBar.open("Please Enter at least one username", "Okay" , {
 
-            }).onAction().subscribe(() => {
-                console.log("You have stopped sharing your list");
-                this.kafkaService.stopSharing();
-            });
+                    duration:4000
+                });
+
+        }
+        else{
+            var usersListHere = new userList(this.username,this.users);
+            this.usersList = usersListHere;
+            this.globals.usersList = this.usersList;
+
+            if(this.usersList.users !== [])
+            {
+                this.snackBar.open("List sharing started", " " , {
+                    duration:4000
+
+                // }).onAction().subscribe(() => {
+                //     console.log("You have stopped sharing your list");
+                //     this.kafkaService.stopSharing();
+                 });
+
+            }
+
         }
 
 
