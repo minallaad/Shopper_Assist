@@ -10,6 +10,10 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {Globals} from "../globals";
+import {MatBottomSheet} from '@angular/material';
+import {ActiveUsersListComponent} from "../active-users-list/active-users-list.component";
+
+;
 
 
 @Component({
@@ -20,7 +24,7 @@ import {Globals} from "../globals";
 export class SharedListsComponent implements OnInit {
 
 
-    constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private kafkaService: KafkaService,private  http:HttpClient,private auth: AuthService,public snackBar: MatSnackBar,private dialog: MatDialog,private globals: Globals) {
+    constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private bottomSheet: MatBottomSheet, private kafkaService: KafkaService,private  http:HttpClient,private auth: AuthService,public snackBar: MatSnackBar,private dialog: MatDialog,private globals: Globals) {
         // Comment out this method call if using
         // hash-based routing
         auth.handleAuthentication();
@@ -28,12 +32,12 @@ export class SharedListsComponent implements OnInit {
 
         iconRegistry.addSvgIcon(
             'add_user',
-            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-group_add-24px.svg'));
+            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-person_add-24px.svg'));
 
 
         iconRegistry.addSvgIcon(
             'ShareList',
-            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/outline-group-24px.svg'));
+            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-group-24px.svg'));
 
     }
 
@@ -145,7 +149,7 @@ export class SharedListsComponent implements OnInit {
 
     openDialog()
     {
-
+        this.bottomSheet.open(ActiveUsersListComponent);
     }
 
     removeFromlist(item:string)

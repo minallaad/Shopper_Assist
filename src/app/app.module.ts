@@ -7,7 +7,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {KafkaService} from "./services/kafka.services";
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSidenavModule , MatToolbarModule, MatButtonModule, MatIconModule, MatListModule, MatGridListModule, MatMenuModule,MatCardModule ,MatCheckboxModule} from '@angular/material';
+import { MatSidenavModule , MatToolbarModule, MatButtonModule, MatIconModule, MatListModule, MatGridListModule, MatMenuModule,MatCardModule ,MatCheckboxModule,MatBottomSheetModule} from '@angular/material';
 import { HeaderComponent } from './header/header.component';
 import { MessengerComponent } from './messenger/messenger.component';
 import { StoresComponent } from './stores/stores.component';
@@ -22,7 +22,8 @@ import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import {MatSnackBarModule } from '@angular/material/snack-bar';
 import { Globals } from './globals';
 import { SharedListsComponent } from './shared-lists/shared-lists.component';
-import { SaveListdialogBoxComponent } from './save-listdialog-box/save-listdialog-box.component'
+import { SaveListdialogBoxComponent } from './save-listdialog-box/save-listdialog-box.component';
+import { ActiveUsersListComponent } from './active-users-list/active-users-list.component'
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { SaveListdialogBoxComponent } from './save-listdialog-box/save-listdialo
     DialogBoxComponent,
     SharedListsComponent,
     SaveListdialogBoxComponent,
+    ActiveUsersListComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,8 @@ import { SaveListdialogBoxComponent } from './save-listdialog-box/save-listdialo
     MatCardModule,
     MatMenuModule,
     MatCardModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatBottomSheetModule
   ],
   providers: [
     KafkaService,

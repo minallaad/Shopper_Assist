@@ -45,7 +45,7 @@ app.use(cors({
 
 //Socket Connection Initialize
 TOTAL_TOPICS.forEach(topic => {
-    shell.exec('~/Softwares/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + topic);
+    shell.exec('/home/minal/Downloads/kafka_2.11-1.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic ' + topic);
 });
 
 
@@ -128,7 +128,8 @@ io.sockets.on("connection",function(socket) {
                         }
 
                         else{
-                            socket.emit('stop-sharing');
+                            //socket.emit('stop-sharing');
+
                             callback('You have no users left stop further processing here');
                         }
                     }

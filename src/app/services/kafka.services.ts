@@ -40,7 +40,9 @@ export class KafkaService {
           }
       });
     this.socket.emit('Room request',nick_names ,function(confirm){
-        console.log(confirm);
+        if(confirm){
+            this.socket.emit('stop-sharing');
+        }
       });
 
   }
