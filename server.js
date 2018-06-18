@@ -101,6 +101,7 @@ io.sockets.on("connection",function(socket) {
                         usernames[user].consent = response;
                         if (response) {
                             checkroom.push(user);
+
                         }
                         //console.log(usernames[user].consent);
                         //console.log(response);
@@ -115,7 +116,7 @@ io.sockets.on("connection",function(socket) {
             callback(checkroom);
         }
 
-        setTimeout(check,30000);
+        setTimeout(check,15000);
         //io.to('Temp-Room').emit('message',request);
 
     });
@@ -179,6 +180,7 @@ io.sockets.on("connection",function(socket) {
             });
 
         } else {
+            callback(true);
             console.log('All Topic Filled Please try after sometime');
 
         }

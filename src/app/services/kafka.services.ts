@@ -63,7 +63,10 @@ export class KafkaService {
 
 
    sendResponse(response){
-        this.socket.emit('request-message-2',response);
+        this.socket.emit('request-message-2',response,function(time){
+            console.log(time);
+            localStorage.setItem('Timer',time.toString());
+        });
     }
 
   addToRoom(nick_names ){

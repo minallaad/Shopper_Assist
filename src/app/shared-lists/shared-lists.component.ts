@@ -89,6 +89,9 @@ export class SharedListsComponent implements OnInit {
                         this.sharing_status = this.globals.shared_status;
                         this.loading_icon = this.globals.shared_status;
                         this.kafkaService.sendResponse(data);
+                        const timer = parseInt(localStorage.getItem('Timer'),10);
+
+                        setTimeout(function(){this.loading_icon = false;},timer);
                     }
 
                 });
