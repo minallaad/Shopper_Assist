@@ -14,11 +14,13 @@
 <!--</mat-card-content>-->
 
 
-<mat-card-content class="container" *ngIf="auth.isAuthenticated()">
+<div *ngIf="loading_icon"  class="loader"><img  src="../../assets/gifs/grocery_assist.gif" /></div>
+<mat-card-content class="container" *ngIf="auth.isAuthenticated() && !loading_icon">
   <form class="example-form">
     <!--<mat-form-field class="example-full-width">-->
     <input matInput placeholder="Enter Item" #box (keyup.enter)="addItemtoList(box.value); box.value =' '"  class="form-control" >
-    <mat-icon matTooltip="Share list by adding users"(click)="addNewUser()" class="add_user" aria-label="Example icon-button with a heart icon" svgIcon="add_user"></mat-icon>
+    <mat-icon *ngIf="!sharing_status" matTooltip="Share list by adding users"(click)="addNewUser()" class="add_user" aria-label="Example icon-button with a heart icon" svgIcon="add_user"></mat-icon>
+    <mat-icon *ngIf="sharing_status" matTooltip="Share list by adding users"(click)="stop_sharing()" class="add_user" aria-label="Example icon-button with a heart icon" svgIcon="stop_sharing"></mat-icon>
     <!--</mat-form-field>-->
   </form>
   <br>

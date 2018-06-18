@@ -12,6 +12,7 @@ export class ActiveUsersListComponent implements OnInit {
 
 
   users= [];
+  sharing_status: boolean = false;
   constructor(private bottomSheetRef: MatBottomSheetRef<ActiveUsersListComponent> , private globals: Globals,private kafkaService: KafkaService) {
   }
 
@@ -21,16 +22,13 @@ export class ActiveUsersListComponent implements OnInit {
     }
   ngOnInit() {
 
-    console.log(typeof  this.globals.usersList.users);
+      this.sharing_status =  this.globals.sharing_status;
+      console.log(typeof  this.globals.usersList.users);
     console.log(this.globals.usersList.users);
    // this.users = this.globals.usersList.users;
 
 
   }
 
-  stop_sharing()
-  {
-      this.kafkaService.stopSharing();
-  }
 
 }
