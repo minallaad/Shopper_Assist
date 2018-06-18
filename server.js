@@ -8,7 +8,7 @@ var express = require('express'),
     //rooms format : connection starter ID:Array of Socket ID of users in room
     //topicsassigned format: Topic name: Array of Socket ID of users
     //r2t format: Topic name : Connection Starter ID
-    filledTopics = [],topics = ['Test0','Test1','Test2'],usernames = {}, topicassigned = {},topicsWUid = {},response = [],u2r = [],checkroom = [];
+    filledTopics = [],topics = ['Test0','Test1','Test2'],usernames = {}, topicassigned = {},topicsWUid = {},checkroom = [];
 
 let TOTAL_TOPICS = ['Test0','Test1','Test2'];
 var room;
@@ -266,6 +266,7 @@ io.sockets.on("connection",function(socket) {
                 var val = topicassigned[key];
                 var uidVal = topicsWUid[key];
                 if(val.includes(socket)){
+                    socket.leave(key);
                     var index1 = val.indexOf(socket);
                     var index2 = uidVal.indexOf(socket.username);
                     if (index1 > -1 && index2 >-1) {
