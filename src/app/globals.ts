@@ -5,4 +5,5 @@ import {userList} from "app/Models/userList.model";
 export class Globals {
     usersList: userList ;
     sharing_status:boolean = false;
+    shared_status:boolean = false;
 }
