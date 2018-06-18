@@ -115,7 +115,7 @@ io.sockets.on("connection",function(socket) {
             callback(checkroom);
         }
 
-        setTimeout(check,30000);
+        setTimeout(check,15000);
         //io.to('Temp-Room').emit('message',request);
 
     });
@@ -264,6 +264,7 @@ io.sockets.on("connection",function(socket) {
                 var val = topicassigned[key];
                 var uidVal = topicsWUid[key];
                 if(val.includes(socket)){
+                    socket.leave(key);
                     var index1 = val.indexOf(socket);
                     var index2 = uidVal.indexOf(socket.username);
                     if (index1 > -1 && index2 >-1) {
