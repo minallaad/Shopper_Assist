@@ -143,9 +143,7 @@ export class SharedListsComponent implements OnInit {
     addNewUser() {
 
 
-
-
-        const dialogRef = this.dialog.open(DialogBoxComponent,{
+        const dialogRef = this.dialog.open(DialogBoxComponent, {
             width: '250px',
             height: '200px',
 
@@ -154,57 +152,60 @@ export class SharedListsComponent implements OnInit {
         const snack = this.snackBar.dismiss();
 
 
-        dialogRef.afterClosed().subscribe( (showSnackBar: boolean) => {
-            this.loading_icon = true;
-            console.log(this.globals.usersList);
+        dialogRef.afterClosed().subscribe(data => {
 
-            this.kafkaService.checkRoom(this.globals.usersList).subscribe(message =>
-            {
-                console.log(message.toString());
+            console.log(data);
+            if (data) {
+                this.loading_icon = true;
+                console.log(this.globals.usersList);
 
-
-                // message.foreach(msg =>{
-                //
-                // });
-                //Array.from(message, x => x);
-                console.log(message);
-                console.log( JSON.stringify(message) !== JSON.stringify([]));
-                if(JSON.stringify(message) !== JSON.stringify([]))
-                {
-                    this.globals.usersList.users = message;
-
-                    this.globals.sharing_status = true;
-                    this.sharing_status = this.globals.sharing_status;
-                    console.log("here");
-                    this.loading_icon = false;
-                    this.kafkaService.addToRoom(this.globals.usersList);
+                this.kafkaService.checkRoom(this.globals.usersList).subscribe(message => {
+                    console.log(message.toString());
 
 
-                    if(this.globals.usersList.users !== [])
-                    {
-                        this.snackBar.open("List sharing started", " " , {
-                            duration:4000
-                        });
+                    // message.foreach(msg =>{
+                    //
+                    // });
+                    //Array.from(message, x => x);
+                    console.log(message);
+                    console.log(JSON.stringify(message) !== JSON.stringify([]));
+                    if (JSON.stringify(message) !== JSON.stringify([])) {
+                        this.globals.usersList.users = message;
+
+                        this.globals.sharing_status = true;
+                        this.sharing_status = this.globals.sharing_status;
+                        console.log("here");
+                        this.loading_icon = false;
+                        this.kafkaService.addToRoom(this.globals.usersList);
+
+
+                        if (this.globals.usersList.users !== []) {
+                            this.snackBar.open("List sharing started", " ", {
+                                duration: 4000
+                            });
+
+                        }
+
 
                     }
+                    else {
+                        this.loading_icon = false;
+                        this.globals.sharing_status = false;
+                        this.globals.shared_status = false;
+                        console.log("No one accepted your request");
+                    }
+
+                });
 
 
-                }
-                else{
-                    this.loading_icon = false;
-                    this.globals.sharing_status = false;
-                    this.globals.shared_status = false;
-                    console.log("No one accepted your request");
-                }
-
-        })
-
-
+            }
 
         });
 
 
     }
+
+
 
     openDialog()
     {
