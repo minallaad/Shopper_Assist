@@ -83,7 +83,12 @@ export class SharedListsComponent implements OnInit {
 
                 dialogRef.afterClosed().subscribe( data => {
                     console.log(data);
-                    this.kafkaService.sendResponse(data);
+                    if(data)
+                    {
+                        this.globals.shared_status = true;
+                        this.kafkaService.sendResponse(data);
+                    }
+
                 });
             }
             else
@@ -126,7 +131,7 @@ export class SharedListsComponent implements OnInit {
             console.log(this.list);
         }
 
-        if(this.globals.sharing_status)
+        if(this.globals.sharing_status || this.globals.shared_status)
         {
             this.kafkaService.sendMessage(this.list);
 
@@ -157,6 +162,7 @@ export class SharedListsComponent implements OnInit {
             {
                 console.log(message.toString());
 
+
                 // message.foreach(msg =>{
                 //
                 // });
@@ -169,8 +175,8 @@ export class SharedListsComponent implements OnInit {
 
                     this.globals.sharing_status = true;
                     this.sharing_status = this.globals.sharing_status;
-                    this.loading_icon = false;
                     console.log("here");
+                    this.loading_icon = false;
                     this.kafkaService.addToRoom(this.globals.usersList);
 
 
@@ -185,7 +191,9 @@ export class SharedListsComponent implements OnInit {
 
                 }
                 else{
+                    this.loading_icon = false;
                     this.globals.sharing_status = false;
+                    this.globals.shared_status = false;
                     console.log("No one accepted your request");
                 }
 
@@ -218,7 +226,7 @@ export class SharedListsComponent implements OnInit {
 
         }
 
-        if(this.globals.sharing_status){
+        if(this.globals.sharing_status || this.globals.shared_status){
             this.kafkaService.sendMessage(this.list);
         }
 
@@ -229,9 +237,9 @@ export class SharedListsComponent implements OnInit {
 
     stop_sharing()
     {
-        if(this.globals.sharing_status)
+        if(this.globals.sharing_status || this.globals.shared_status)
         {
-            this.sharing_status = this.globals.sharing_status = false;
+            this.sharing_status = this.globals.sharing_status = this.globals.shared_status = false;
             this.kafkaService.stopSharing();
         }
     }
