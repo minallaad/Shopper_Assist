@@ -234,6 +234,7 @@ export class SharedListsComponent implements OnInit {
             console.log(this.list[i].name);
             if(this.list[i].name === item) {
                 this.list[i].isPresent = false;
+                this.list[i].updatedBy = localStorage.getItem('username');
                 console.log(this.list[i].isPresent);
                 break;
             }
