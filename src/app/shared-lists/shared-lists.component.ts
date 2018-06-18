@@ -86,6 +86,8 @@ export class SharedListsComponent implements OnInit {
                     if(data)
                     {
                         this.globals.shared_status = true;
+                        this.sharing_status = this.globals.shared_status;
+                        this.loading_icon = this.globals.shared_status;
                         this.kafkaService.sendResponse(data);
                     }
 
@@ -146,16 +148,17 @@ export class SharedListsComponent implements OnInit {
         const dialogRef = this.dialog.open(DialogBoxComponent, {
             width: '250px',
             height: '200px',
+            data: {}
 
         });
         //const snack = this.snackBar.open('Snack bar open before dialog');
         const snack = this.snackBar.dismiss();
 
 
-        dialogRef.afterClosed().subscribe(data => {
+        dialogRef.afterClosed().subscribe( result=> {
 
-            console.log(data);
-            if (data) {
+
+            if (this.globals.sharing_status) {
                 this.loading_icon = true;
                 console.log(this.globals.usersList);
 
@@ -238,6 +241,8 @@ export class SharedListsComponent implements OnInit {
 
     stop_sharing()
     {
+        console.log(this.globals.sharing_status);
+        console.log(this.globals.shared_status);
         if(this.globals.sharing_status || this.globals.shared_status)
         {
             this.sharing_status = this.globals.sharing_status = this.globals.shared_status = false;
