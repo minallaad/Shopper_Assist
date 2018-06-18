@@ -25,8 +25,8 @@
   </form>
   <br>
   <div *ngFor="let item of list" class="list-group">
-    <mat-card *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)"><mat-checkbox><h4><b>{{item.name}}</b></h4></mat-checkbox></mat-card>
-    <mat-card *ngIf="!item.isPresent" ng-model ="item.name" (click)="addItemtoList(item.name)"><mat-checkbox [checked]="true"><h4><s>{{item.name}}</s></h4></mat-checkbox></mat-card>
+    <mat-card *ngIf="item.isPresent" ng-model ="item.name" (click)="removeFromlist(item.name)"><mat-checkbox><h4><b>{{item.name}}</b></h4><h6 class="updated_by">{{item.updatedBy}} updated</h6></mat-checkbox></mat-card>
+    <mat-card *ngIf="!item.isPresent" ng-model ="item.name" (click)="addItemtoList(item.name)"><mat-checkbox [checked]="true"><h4><s>{{item.name}}</s></h4><h6 class="updated_by">{{item.updatedBy}} updated</h6></mat-checkbox></mat-card>
   </div>
 
 </mat-card-content>

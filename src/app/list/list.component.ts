@@ -106,7 +106,7 @@ export class ListComponent implements OnInit,OnDestroy {
 
      if( flag === 0)
      {
-         const item = new Item(itemName , true);
+         const item = new Item(itemName , true,localStorage.getItem('username'));
          this.list.push(item);
          console.log(this.list);
      }

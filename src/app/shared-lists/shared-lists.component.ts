@@ -15,8 +15,6 @@ import {ActiveUsersListComponent} from "../active-users-list/active-users-list.c
 import {ConfirmationDialogBoxComponent} from "../confirmation-dialog-box/confirmation-dialog-box.component";
 
 
-;
-
 
 @Component({
   selector: 'app-shared-lists',
@@ -71,6 +69,8 @@ export class SharedListsComponent implements OnInit {
             {
                 console.log(message);
                 console.log("in dialog");
+                this.globals.username = message.toString().split(' ',1)[0];
+                console.log(this.globals.username);
 
                 const dialogRef = this.dialog.open(ConfirmationDialogBoxComponent,{
                     width: '250px',
@@ -83,18 +83,25 @@ export class SharedListsComponent implements OnInit {
 
                 dialogRef.afterClosed().subscribe( data => {
                     console.log(data);
+                    var timer;
                     if(data)
                     {
                         this.globals.shared_status = true;
                         this.sharing_status = this.globals.shared_status;
                         this.loading_icon = this.globals.shared_status;
-                        this.kafkaService.sendResponse(data);
-                        const timer = parseInt(localStorage.getItem('Timer'),10);
+                        this.kafkaService.sendResponse(data).subscribe(message =>
+                        {
+                            timer = parseInt(message.toString(),10);
+                            if(timer)
+                            {
+                                this.loading_icon = false;
+                            }
+                        });
 
-                        setTimeout(function(){this.loading_icon = false;},timer);
                     }
 
                 });
+                console.log('End dialogref');
             }
             else
             {
@@ -106,6 +113,7 @@ export class SharedListsComponent implements OnInit {
 
 
         })
+        console.log('End dialogref');
     }
 
 
@@ -131,7 +139,7 @@ export class SharedListsComponent implements OnInit {
 
         if( flag === 0)
         {
-            const item = new Item(itemName , true);
+            const item = new Item(itemName , true,localStorage.getItem('username'));
             this.list.push(item);
             console.log(this.list);
         }
