@@ -36,6 +36,11 @@
 
 }
 
+.loader{
+    margin-top: 35%;
+    margin-left:15%;
+}
+
 .add_user{
     position:fixed;
     right: 3rem;

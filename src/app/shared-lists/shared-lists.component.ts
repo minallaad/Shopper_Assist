@@ -38,6 +38,11 @@ export class SharedListsComponent implements OnInit {
 
 
         iconRegistry.addSvgIcon(
+            'stop_sharing',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-stop-24px.svg'));
+
+
+        iconRegistry.addSvgIcon(
             'ShareList',
             sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-group-24px.svg'));
 
@@ -49,7 +54,8 @@ export class SharedListsComponent implements OnInit {
     usersList: userList;
     users = [];
     consent : boolean;
-
+    sharing_status: boolean = false;
+    loading_icon :boolean = false;
 
     ngOnInit() {
         console.log("in list");
@@ -119,22 +125,13 @@ export class SharedListsComponent implements OnInit {
             this.list.push(item);
             console.log(this.list);
         }
-        this.kafkaService.sendMessage(this.list);
 
+        if(this.globals.sharing_status)
+        {
+            this.kafkaService.sendMessage(this.list);
 
-        //
-        // this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
-        //
-        //   headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
-        // })
-        // .subscribe(data => {
-        //   console.log(data);
-        // });
+        }
 
-        //
-        // if (itemName) {
-        //     itemName = '';
-        // }
 
     }
 
@@ -153,27 +150,46 @@ export class SharedListsComponent implements OnInit {
 
 
         dialogRef.afterClosed().subscribe( (showSnackBar: boolean) => {
+            this.loading_icon = true;
             console.log(this.globals.usersList);
 
             this.kafkaService.checkRoom(this.globals.usersList).subscribe(message =>
             {
-                console.log(message);
-                this.globals.usersList.users = message;
+                console.log(message.toString());
+
                 // message.foreach(msg =>{
                 //
                 // });
                 //Array.from(message, x => x);
-                if(this.globals.usersList.users != undefined )
+                console.log(message);
+                console.log( JSON.stringify(message) !== JSON.stringify([]));
+                if(JSON.stringify(message) !== JSON.stringify([]))
                 {
+                    this.globals.usersList.users = message;
+
+                    this.globals.sharing_status = true;
+                    this.sharing_status = this.globals.sharing_status;
+                    this.loading_icon = false;
+                    console.log("here");
                     this.kafkaService.addToRoom(this.globals.usersList);
+
+
+                    if(this.globals.usersList.users !== [])
+                    {
+                        this.snackBar.open("List sharing started", " " , {
+                            duration:4000
+                        });
+
+                    }
+
+
                 }
                 else{
+                    this.globals.sharing_status = false;
                     console.log("No one accepted your request");
                 }
 
         })
-            //     this.usersList = this.globals.usersList;
-            //     //Calling Kafka services for socket connection here
 
 
 
@@ -202,15 +218,22 @@ export class SharedListsComponent implements OnInit {
 
         }
 
-        this.kafkaService.sendMessage(this.list);
+        if(this.globals.sharing_status){
+            this.kafkaService.sendMessage(this.list);
+        }
 
-        // this.http.post('http://localhost:8092/postData', JSON.stringify(this.list), {
-        //     headers: new HttpHeaders().set( 'Content-Type', 'application/json' )
-        // })
-        //     .subscribe(data => {
-        //         console.log(data);
-        //     });
+
         console.log(this.list);
+    }
+
+
+    stop_sharing()
+    {
+        if(this.globals.sharing_status)
+        {
+            this.sharing_status = this.globals.sharing_status = false;
+            this.kafkaService.stopSharing();
+        }
     }
 
 }
