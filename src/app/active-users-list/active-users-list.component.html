@@ -7,4 +7,8 @@
 <mat-nav-list *ngIf="!sharing_status && !shared_status"><h5>You are not sharing any list </h5>
 </mat-nav-list>
 
-<mat-nav-list *ngIf="!sharing_status && shared_status"><h5>You are sharing {{username}}'s list</h5></mat-nav-list>
+<mat-nav-list *ngIf="!sharing_status && shared_status"><h5>You are sharing  list with </h5>
+  <ul *ngFor="let user of users">
+    <li>{{user}}</li>
+  </ul>
+</mat-nav-list>

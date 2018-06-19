@@ -37,7 +37,7 @@ export class ActiveUsersListComponent implements OnInit {
      if(this.globals.sharing_status){
          console.log("In sharing status");
           this.sharing_status =  this.globals.sharing_status;
-          this.sharing_status = false;
+          this.shared_status = false;
           this.users = this.globals.usersList.users;
           console.log(typeof  this.globals.usersList.users);
           console.log(this.globals.usersList.users);
@@ -46,7 +46,8 @@ export class ActiveUsersListComponent implements OnInit {
       {
           console.log("In shared status");
           this.shared_status = true;
-          this.username = this.globals.username;
+          this.users = this.globals.users;
+          console.log(this.globals.users);
       }
       else{
              this.sharing_status = false;

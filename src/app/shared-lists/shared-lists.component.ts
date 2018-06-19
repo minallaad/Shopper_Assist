@@ -74,10 +74,11 @@ export class SharedListsComponent implements OnInit {
                 {
                     this.globals.shared_status = (message.toString().split(' ',4)[3] === "true");
                     this.sharing_status = this.globals.shared_status;
+
                 }
 
             }
-            if(message.toString().includes("wants to share"))
+            else if(message.toString().includes("wants to share"))
             {
                 console.log(message);
                 console.log("in dialog");
@@ -96,24 +97,26 @@ export class SharedListsComponent implements OnInit {
                 dialogRef.afterClosed().subscribe( data => {
                     console.log(data);
                     var timer;
-                    if(data)
+                    if(data === true)
                     {
                         this.globals.shared_status = true;
                         this.sharing_status = this.globals.shared_status;
                         this.loading_icon = this.globals.shared_status;
                         this.kafkaService.sendResponse(data).subscribe(message =>
                         {
-                            timer = parseInt(message.toString(),10);
-                            if(timer)
+                            console.log(message.toString());
+
+                            if(message.toString())
                             {
                                 this.loading_icon = false;
+                                this.globals.users = message.toString().split(' ');
                             }
                         });
 
                     }
 
                 });
-                console.log('End dialogref');
+
             }
             else
             {
@@ -218,6 +221,10 @@ export class SharedListsComponent implements OnInit {
                         this.loading_icon = false;
                         this.globals.sharing_status = false;
                         this.globals.shared_status = false;
+                        this.snackBar.open("Users are unavailable for sharing", " ", {
+                            duration: 4000
+                        });
+
                         console.log("No one accepted your request");
                     }
 
