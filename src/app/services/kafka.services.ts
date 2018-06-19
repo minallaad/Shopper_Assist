@@ -61,6 +61,18 @@ export class KafkaService {
   //
   //   }
 
+    addMore(names){
+        let observable = new Observable(observer => {
+            this.socket.emit('Add-More',names,function(usersAdded){
+                observer.next(usersAdded);
+                //this.usersWilling = usersWilling;
+            });
+        })
+        return  observable;
+    }
+
+
+
 
 
    sendResponse(response){
@@ -76,7 +88,7 @@ export class KafkaService {
 
     }
 
-  addToRoom(nick_names ){
+  addToRoom(nick_names){
     console.log(typeof nick_names);
     console.log(nick_names);
     //this.room_shared = true;
