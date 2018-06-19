@@ -1,6 +1,6 @@
 <mat-nav-list *ngIf="sharing_status && !shared_status"><h5>You are sharing your list with</h5>
   <ul *ngFor="let user of users">
-    <li>{{user}}</li> <mat-icon  (click)="RemoveUser(user.value)"  svgIcon="remove" ></mat-icon>
+    <li>{{user}}</li>
   </ul>
 </mat-nav-list>
 
