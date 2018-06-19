@@ -46,7 +46,17 @@
 }
 .add_user{
     position:fixed;
-    right: 3rem;
+    right: 6rem;
+    top: 15rem;
+}
+
+
+.delete{
+    left:1rem;
+}
+.stop_sharing{
+    position:fixed;
+    right: 1.5rem;
     top: 15rem;
 }
 .app-fab--absolute{

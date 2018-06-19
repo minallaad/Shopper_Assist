@@ -37,12 +37,20 @@ export class SharedListsComponent implements OnInit {
 
         iconRegistry.addSvgIcon(
             'stop_sharing',
-            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-stop-24px.svg'));
+            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/stop-circular-button.svg'));
 
 
         iconRegistry.addSvgIcon(
             'ShareList',
             sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-group-24px.svg'));
+
+        iconRegistry.addSvgIcon(
+            'deleteItem',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/recycle-bin.svg'));
+
+        iconRegistry.addSvgIcon(
+            'disabled_stop_sharing',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/stop.svg'));
 
     }
 
@@ -132,6 +140,76 @@ export class SharedListsComponent implements OnInit {
     }
 
 
+
+    deleteItem(item)
+    {
+
+        this.list.splice(this.list.indexOf(item),1);
+
+        if(this.globals.sharing_status || this.globals.shared_status){
+            this.kafkaService.sendMessage(this.list);
+        }
+
+    }
+    addMoreUser()
+    {
+
+        const dialogRef = this.dialog.open(DialogBoxComponent, {
+            width: '250px',
+            height: '200px',
+            data: {}
+
+        });
+        //const snack = this.snackBar.open('Snack bar open before dialog');
+        const snack = this.snackBar.dismiss();
+
+
+        dialogRef.afterClosed().subscribe( result=> {
+
+
+            if (this.globals.sharing_status) {
+                this.loading_icon = true;
+                console.log(this.globals.usersList);
+
+
+                this.globals.sharing_status = true;
+                this.sharing_status = this.globals.sharing_status;
+                console.log("here");
+                this.loading_icon = false;
+                this.kafkaService.addMore(this.globals.usersList.users).subscribe(message => {
+
+                    console.log(message);
+                    console.log("In add user");
+                    this.globals.usersList.users = message.toString().split(',');
+                    if (this.globals.usersList.users !== []) {
+                        this.snackBar.open("Added users successfully.", " ", {
+                            duration: 4000
+                        });
+
+                    }
+
+                    else {
+                        this.loading_icon = false;
+                        this.globals.sharing_status = false;
+                        this.globals.shared_status = false;
+                        this.snackBar.open("Users are unavailable for sharing", " ", {
+                            duration: 4000
+                        });
+
+                        console.log("No one accepted your request");
+                    }
+
+
+                });
+
+
+            }
+
+        });
+
+
+
+    }
     ngOnDestroy(){
         console.log("List destroyed");
     }

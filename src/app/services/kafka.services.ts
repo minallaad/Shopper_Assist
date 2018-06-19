@@ -63,7 +63,7 @@ export class KafkaService {
 
     addMore(names){
         let observable = new Observable(observer => {
-            this.socket.emit('Add-More',names,function(usersAdded){
+            this.socket.emit('add-more',names,function(usersAdded){
                 observer.next(usersAdded);
                 //this.usersWilling = usersWilling;
             });
