@@ -6,6 +6,7 @@ export class KafkaService {
 
   //private url = 'https://friday-gclistings.localtunnel.me';
   private url = 'http://35.233.233.84:8092';
+    //private url ='http://localhost:8092'
   private socket = io(this.url);
   private usersWilling ;
 

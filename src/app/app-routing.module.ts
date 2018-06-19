@@ -9,7 +9,7 @@ import {SharedListsComponent} from "./shared-lists/shared-lists.component";
 
 const appRoutes: Routes = [
 
-  // {path: '', redirectTo: 'list', pathMatch: 'full'},
+  //{path: '', redirectTo: 'list', pathMatch: 'full',canActivate: [AuthGuard]},
   {path: 'shared-list', component:SharedListsComponent , canActivate: [AuthGuard]} ,
   {path: 'list', component: ListComponent,canActivate: [AuthGuard] },
   {path: 'Messenger', component: MessengerComponent,canActivate: [AuthGuard] },

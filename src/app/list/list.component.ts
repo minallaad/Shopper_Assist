@@ -36,9 +36,8 @@ import {SaveListdialogBoxComponent} from "../save-listdialog-box/save-listdialog
 export class ListComponent implements OnInit,OnDestroy {
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private kafkaService: KafkaService,public snackBar: MatSnackBar,private  http:HttpClient,private auth: AuthService,private dialog: MatDialog,private globals: Globals) {
-      // Comment out this method call if using
-      // hash-based routing
-      auth.handleAuthentication();
+
+
       console.log(globals.usersList);
 
       iconRegistry.addSvgIcon(
@@ -61,7 +60,10 @@ export class ListComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     console.log("in list");
-    this.connection = this.kafkaService.getMessage().subscribe(message =>{
+
+
+
+      this.connection = this.kafkaService.getMessage().subscribe(message =>{
         console.log(message);
         console.log(typeof message);
 

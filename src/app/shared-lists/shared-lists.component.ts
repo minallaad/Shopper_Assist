@@ -51,6 +51,7 @@ export class SharedListsComponent implements OnInit {
     list : Item[] = [];
     usersList: userList;
     users = [];
+    myusername:string;
     consent : boolean;
     sharing_status: boolean = false;
     loading_icon :boolean = false;
@@ -65,6 +66,17 @@ export class SharedListsComponent implements OnInit {
             console.log(message);
 
 
+            if(message.toString().includes("sharing status"))
+            {
+                this.myusername = message.toString().split(' ',4)[0];
+
+                if(this.myusername === (localStorage.getItem('username')))
+                {
+                    this.globals.shared_status = (message.toString().split(' ',4)[3] === "true");
+                    this.sharing_status = this.globals.shared_status;
+                }
+
+            }
             if(message.toString().includes("wants to share"))
             {
                 console.log(message);
@@ -234,6 +246,7 @@ export class SharedListsComponent implements OnInit {
             console.log(this.list[i].name);
             if(this.list[i].name === item) {
                 this.list[i].isPresent = false;
+                this.list[i].updatedBy = localStorage.getItem('username');
                 console.log(this.list[i].isPresent);
                 break;
             }

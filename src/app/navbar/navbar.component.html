@@ -27,19 +27,19 @@
     </mat-toolbar>
     <nav mat-tab-nav-bar class="mat-background-primary">
       <a mat-tab-link
-         [routerLink]="['/list']"
+         href="/list"
          routerLinkActive #rla="routerLinkActive"
          [active]="rla.isActive">
         My List
       </a>
       <a mat-tab-link
-         [routerLink]="['/shared-list']"
+         href="/shared-list"
          routerLinkActive #rla="routerLinkActive"
          [active]="rla.isActive">
         Shared List
       </a>
       <a mat-tab-link
-         [routerLink]="['/Messenger']"
+         href="/Messenger"
          routerLinkActive #rla="routerLinkActive"
          [active]="rla.isActive">
         Messenger

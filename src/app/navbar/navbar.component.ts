@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material';
+import {KafkaService} from "../services/kafka.services";
 
 @Component({
   selector: 'navbar',
@@ -21,7 +22,7 @@ export class NavbarComponent implements OnInit{
       map(result => result.matches)
     );
     
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,private breakpointObserver: BreakpointObserver , private auth: AuthService,public router: Router) {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,private breakpointObserver: BreakpointObserver , private auth: AuthService,public router: Router , private kafkaService: KafkaService) {
 
       iconRegistry.addSvgIcon(
           'Grocery_cart',
@@ -39,6 +40,7 @@ export class NavbarComponent implements OnInit{
      this.auth.handleAuthentication();
      localStorage.clear();
 
+     this.kafkaService.stopSharing();
      this.auth.logout();
    }
   }

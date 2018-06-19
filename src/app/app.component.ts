@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { KafkaService} from "./services/kafka.services";
-import {ConfirmationDialogBoxComponent} from "./confirmation-dialog-box/confirmation-dialog-box.component";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
@@ -19,13 +18,15 @@ export class AppComponent implements  OnInit{
         // hash-based routing
         auth.handleAuthentication();
 
-
         if(auth.isAuthenticated())
         {
             // this.profile = JSON.parse(localStorage.getItem('profile'));
             // localStorage.setItem('username',this.profile.nickname);
-            this.connection = this.conn.addUser(localStorage.getItem('username'));
+            console.log(localStorage.getItem('username'));
+            if(localStorage.getItem('username') !== null)
+                this.connection = this.conn.addUser(localStorage.getItem('username'));
         }
+
         //
         //localStorage.setItem('username',this.profile['username']);
         //console.log(this.profile.nickname);
@@ -39,7 +40,12 @@ export class AppComponent implements  OnInit{
     ngOnInit(){
 
 
-
+        // if(this.auth.isAuthenticated())
+        // {
+        //     // this.profile = JSON.parse(localStorage.getItem('profile'));
+        //     // localStorage.setItem('username',this.profile.nickname);
+        //     this.connection = this.conn.addUser(localStorage.getItem('username'));
+        // }
 
 
 

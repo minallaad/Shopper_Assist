@@ -68,6 +68,7 @@ export class DialogBoxComponent implements OnInit {
             console.log(this.globals.usersList);
             var usersListHere = new userList(this.username,this.users);
             this.usersList = usersListHere;
+            console.log(this.globals.usersList);
             this.globals.usersList = this.usersList;
             this.globals.sharing_status = true;
 

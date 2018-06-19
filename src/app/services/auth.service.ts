@@ -60,6 +60,7 @@ export class AuthService {
 
             localStorage.setItem('profile',JSON.stringify(profile));
             localStorage.setItem('username', JSON.parse(localStorage.getItem('profile')).nickname.toString());
+            console.log(localStorage.getItem('username'));
 
         });
 
@@ -70,13 +71,14 @@ export class AuthService {
     public handleAuthentication(): void {
 
         this.lock.on('authenticated', (authResult) => {
-            this.getSetName(authResult);
+
 
             if (authResult && authResult.accessToken && authResult.idToken) {
                 //this.getSetName(authResult);
+                this.getSetName(authResult);
                 this.setSession(authResult);
 
-                this.router.navigate(['/']);
+                this.router.navigate(['/Messenger']);
             }
         });
         this.lock.on('authorization_error', (err) => {
