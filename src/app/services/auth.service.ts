@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable,NgZone } from '@angular/core';
 import { AUTH_CONFIG } from './auth0-variables';
 import { Router, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import Auth0Lock from 'auth0-lock';
+
 
 
 @Injectable()
@@ -15,11 +16,13 @@ export class AuthService {
         },
         // allowedConnections: ['facebook','Username-Password-Authentication'],
         auth: {
+            redirect: false,
             redirectUrl: AUTH_CONFIG.callbackURL,
+            responseMode: 'fragment',
             responseType: 'token id_token',
             audience: `https://${AUTH_CONFIG.domain}/userinfo`,
             params: {
-                scope: 'openid profile email user_metadata app_metadata'
+                scope: 'openid profile email user_metadata app_metadata offline_access'
             }
         },
         socialButtonStyle: 'large',
@@ -46,6 +49,7 @@ export class AuthService {
 
     public login(): void {
         this.lock.show();
+        this.handleAuthentication();
     }
 
 
@@ -56,11 +60,11 @@ export class AuthService {
                 // Handle error
                 return;
             }
-            console.log(JSON.stringify(profile));
+            //console.log(JSON.stringify(profile));
 
-            localStorage.setItem('profile',JSON.stringify(profile));
-            localStorage.setItem('username', JSON.parse(localStorage.getItem('profile')).nickname.toString());
-            console.log(localStorage.getItem('username'));
+            //localStorage.setItem('profile',JSON.stringify(profile));
+            localStorage.setItem('username', JSON.parse(JSON.stringify(profile.nickname)));
+            //console.log(localStorage.getItem('username'));
 
         });
 
@@ -69,16 +73,17 @@ export class AuthService {
     // Call this method in app.component.ts
     // if using path-based routing
     public handleAuthentication(): void {
-
         this.lock.on('authenticated', (authResult) => {
 
+            this.getSetName(authResult);
 
             if (authResult && authResult.accessToken && authResult.idToken) {
                 //this.getSetName(authResult);
-                this.getSetName(authResult);
-                this.setSession(authResult);
 
-                this.router.navigate(['/Messenger']);
+                this.setSession(authResult);
+                //this.router.
+
+                this.router.navigate(['/list']);
             }
         });
         this.lock.on('authorization_error', (err) => {
@@ -130,10 +135,10 @@ export class AuthService {
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
-        localStorage.removeItem('profile');
+        //localStorage.removeItem('profile');
         localStorage.removeItem('username');
         // Go back to the home route
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
     }
 
     public isAuthenticated(): boolean {

@@ -15,7 +15,7 @@ export class MessengerComponent implements OnInit {
   constructor( iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,private  http:HttpClient,private auth: AuthService) {
 
 
-      auth.handleAuthentication();
+
       iconRegistry.addSvgIcon(
           'Similey',
           sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-insert_emoticon-24px.svg'));

@@ -42,12 +42,13 @@
 }
 
 .update_by{
-  right:1rem;
+
 }
 .add_user{
     position:fixed;
     right: 6rem;
     top: 15rem;
+
 }
 
 
@@ -58,6 +59,7 @@
     position:fixed;
     right: 1.5rem;
     top: 15rem;
+
 }
 .app-fab--absolute{
     position: fixed;

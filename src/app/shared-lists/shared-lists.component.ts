@@ -27,7 +27,7 @@ export class SharedListsComponent implements OnInit {
     constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private bottomSheet: MatBottomSheet, private kafkaService: KafkaService,private  http:HttpClient,private auth: AuthService,public snackBar: MatSnackBar,private dialog: MatDialog,private globals: Globals) {
         // Comment out this method call if using
         // hash-based routing
-        auth.handleAuthentication();
+
         console.log(globals.usersList);
 
         iconRegistry.addSvgIcon(

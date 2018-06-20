@@ -34,20 +34,33 @@ export class ActiveUsersListComponent implements OnInit {
 
       console.log(this.globals.usersList);
 
+      this.username = localStorage.getItem('username');
+
+
      if(this.globals.sharing_status){
          console.log("In sharing status");
           this.sharing_status =  this.globals.sharing_status;
           this.shared_status = false;
-          this.users = this.globals.usersList.users;
-          console.log(typeof  this.globals.usersList.users);
-          console.log(this.globals.usersList.users);
+          if(this.globals.usersList.users.length !== 0)
+          {
+              localStorage.setItem("users_list1",this.globals.usersList.users.toString());
+          }
+          this.users = localStorage.getItem("users_list1").split(',');
+          this.users.splice(this.users.indexOf(this.username),1);
+          console.log(this.users);
       }
       else if (this.globals.shared_status)
       {
           console.log("In shared status");
           this.shared_status = true;
-          this.users = this.globals.users;
-          console.log(this.globals.users);
+
+          if(this.globals.users.length !== 0)
+          {
+              localStorage.setItem("users_list1",this.globals.users.toString());
+          }
+          this.users = localStorage.getItem("users_list1").split(',');
+          this.users.splice(this.users.indexOf(this.username),1);
+          console.log(this.users);
       }
       else{
              this.sharing_status = false;

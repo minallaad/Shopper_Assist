@@ -8,6 +8,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material';
 import {KafkaService} from "../services/kafka.services";
 
+
 @Component({
   selector: 'navbar',
   templateUrl: './navbar.component.html',
@@ -32,12 +33,13 @@ export class NavbarComponent implements OnInit{
 
    ngOnInit()
    {
+
      this.username = localStorage.getItem('username');
    }
 
    logout()
    {
-     this.auth.handleAuthentication();
+
      localStorage.clear();
 
      this.kafkaService.stopSharing();

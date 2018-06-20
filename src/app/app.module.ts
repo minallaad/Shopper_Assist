@@ -24,7 +24,9 @@ import { Globals } from './globals';
 import { SharedListsComponent } from './shared-lists/shared-lists.component';
 import { SaveListdialogBoxComponent } from './save-listdialog-box/save-listdialog-box.component';
 import { ActiveUsersListComponent } from './active-users-list/active-users-list.component';
-import { ConfirmationDialogBoxComponent } from './confirmation-dialog-box/confirmation-dialog-box.component'
+import { ConfirmationDialogBoxComponent } from './confirmation-dialog-box/confirmation-dialog-box.component';
+import { LoginComponent } from './login/login.component'
+
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { ConfirmationDialogBoxComponent } from './confirmation-dialog-box/confir
     SaveListdialogBoxComponent,
     ActiveUsersListComponent,
     ConfirmationDialogBoxComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ import {userList} from "../Models/userList.model";
 import { Globals } from '../globals';
 import {SaveListdialogBoxComponent} from "../save-listdialog-box/save-listdialog-box.component";
 
+
 // class Item{
 //     public name:string;
 //     public isPresent:boolean;
@@ -60,6 +61,12 @@ export class ListComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     console.log("in list");
+
+
+        setTimeout(()=>{
+
+            this.kafkaService.addUser(localStorage.getItem('username'));
+        },5000)
 
 
 
