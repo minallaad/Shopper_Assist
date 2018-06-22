@@ -34,7 +34,13 @@ export class NavbarComponent implements OnInit{
    ngOnInit()
    {
 
-     this.username = localStorage.getItem('username');
+
+       setTimeout(()=>{
+
+           this.username = localStorage.getItem('username');
+       },1000)
+
+
    }
 
    logout()
