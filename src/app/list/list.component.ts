@@ -3,7 +3,6 @@ import {KafkaService} from "../services/kafka.services";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material';
-import { AuthService } from '../services/auth.service';
 import { MatDialog} from '@angular/material/dialog';
 import {MatSnackBar } from '@angular/material/snack-bar';
 import {DialogBoxComponent} from "../dialog-box/dialog-box.component";
@@ -36,7 +35,7 @@ import {SaveListdialogBoxComponent} from "../save-listdialog-box/save-listdialog
 })
 export class ListComponent implements OnInit,OnDestroy {
 
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private kafkaService: KafkaService,public snackBar: MatSnackBar,private  http:HttpClient,private auth: AuthService,private dialog: MatDialog,private globals: Globals) {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private kafkaService: KafkaService,public snackBar: MatSnackBar,private  http:HttpClient,private dialog: MatDialog,private globals: Globals) {
 
 
       console.log(globals.usersList);
@@ -57,16 +56,17 @@ export class ListComponent implements OnInit,OnDestroy {
   list : Item[] = [];
   usersList: userList;
   room_shared = 0;
+  loggedIn:boolean=false;
 
 
   ngOnInit() {
     console.log("in list");
 
+      this.loggedIn=this.globals.loggedIn;
 
-        setTimeout(()=>{
+    if( this.globals.loggedIn &&this.globals.myUserName )
+        this.kafkaService.addUser(this.globals.myUserName);
 
-            this.kafkaService.addUser(localStorage.getItem('username'));
-        },5000)
 
 
 
@@ -87,8 +87,9 @@ export class ListComponent implements OnInit,OnDestroy {
 
 
     })
+     console.log(this.connection);
 
-      this.room_shared = parseInt(localStorage.getItem("room_shared"));
+     this.room_shared = parseInt(localStorage.getItem("room_shared"));
 
   }
 

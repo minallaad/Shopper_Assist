@@ -34,6 +34,7 @@ export class ActiveUsersListComponent implements OnInit {
 
       console.log(this.globals.usersList);
 
+
       this.username = localStorage.getItem('username');
 
 
@@ -41,12 +42,15 @@ export class ActiveUsersListComponent implements OnInit {
          console.log("In sharing status");
           this.sharing_status =  this.globals.sharing_status;
           this.shared_status = false;
-          if(this.globals.usersList.users.length !== 0)
-          {
-              localStorage.setItem("users_list1",this.globals.usersList.users.toString());
-          }
-          this.users = localStorage.getItem("users_list1").split(',');
-          this.users.splice(this.users.indexOf(this.username),1);
+          // if(this.globals.usersList.users.length !== 0)
+          // {
+          //     localStorage.setItem("users_list1",this.globals.usersList.users.toString());
+          // }
+
+         if(localStorage.getItem('usersSharingWith'))
+            this.users =  JSON.parse(localStorage.getItem('usersSharingWith'));
+
+         // this.users.splice(this.users.indexOf(this.username),1);
           console.log(this.users);
       }
       else if (this.globals.shared_status)
@@ -54,12 +58,14 @@ export class ActiveUsersListComponent implements OnInit {
           console.log("In shared status");
           this.shared_status = true;
 
-          if(this.globals.users.length !== 0)
-          {
-              localStorage.setItem("users_list1",this.globals.users.toString());
-          }
-          this.users = localStorage.getItem("users_list1").split(',');
-          this.users.splice(this.users.indexOf(this.username),1);
+          // if(this.globals.users.length !== 0)
+          // {
+          //     localStorage.setItem("users_list1",this.globals.users.toString());
+          // }
+          if(localStorage.getItem('usersSharingWith'))
+             this.users =  JSON.parse(localStorage.getItem('usersSharingWith'));
+
+         // this.users.splice(this.users.indexOf(this.username),1);
           console.log(this.users);
       }
       else{

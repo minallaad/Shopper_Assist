@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
 import {AppRoutingModule} from './app-routing.module';
 import {KafkaService} from "./services/kafka.services";
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule ,HTTP_INTERCEPTORS} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule , MatToolbarModule, MatButtonModule, MatIconModule, MatListModule, MatGridListModule, MatMenuModule,MatCardModule ,MatCheckboxModule,MatBottomSheetModule} from '@angular/material';
 import { HeaderComponent } from './header/header.component';
@@ -13,8 +13,6 @@ import { MessengerComponent } from './messenger/messenger.component';
 import { StoresComponent } from './stores/stores.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { FooterComponent } from './footer/footer.component';
-import { AuthService } from './services/auth.service';
-import {AuthGuard} from "./services/auth.guard";
 import { NavbarComponent } from './navbar/navbar.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MaterialModule } from './material.module';
@@ -26,7 +24,19 @@ import { SaveListdialogBoxComponent } from './save-listdialog-box/save-listdialo
 import { ActiveUsersListComponent } from './active-users-list/active-users-list.component';
 import { ConfirmationDialogBoxComponent } from './confirmation-dialog-box/confirmation-dialog-box.component';
 import { LoginComponent } from './login/login.component'
+import {FlexLayoutModule} from "@angular/flex-layout";
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { environment } from '../environments/environment';
+import { JwtModule } from '@auth0/angular-jwt';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 
+
+
+export function tokenGetter(){
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   declarations: [
@@ -44,6 +54,9 @@ import { LoginComponent } from './login/login.component'
     ActiveUsersListComponent,
     ConfirmationDialogBoxComponent,
     LoginComponent,
+    ChangePasswordComponent,
+    MyProfileComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -64,13 +77,21 @@ import { LoginComponent } from './login/login.component'
     MatMenuModule,
     MatCardModule,
     MatCheckboxModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    FlexLayoutModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+      JwtModule.forRoot({
+          config: {
+              tokenGetter: tokenGetter
+          }
+      })
   ],
   providers: [
-    KafkaService,
-      AuthService,
-      AuthGuard,
-      Globals
+     KafkaService,
+     Globals,
+
+
   ],
   entryComponents: [
       DialogBoxComponent,

@@ -29,7 +29,7 @@
         </div>
 
 </mat-card-content>
-<button mat-fab class="app-fab--absolute" matTooltip="Save your list for future use" >
+<button mat-fab class="app-fab--absolute" matTooltip="Save your list for future use" *ngIf="loggedIn" >
   <mat-icon  (click)="openDialog()" aria-label="Example icon-button with a heart icon" svgIcon="Save_list" ></mat-icon>
 </button>
 

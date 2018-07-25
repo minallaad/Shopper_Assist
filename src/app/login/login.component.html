@@ -1,0 +1,63 @@
+<mat-toolbar color="primary" class="mat-toolbar"  layout="row">
+    <h1 class="mat-title text-center">Grocery Assists</h1>
+</mat-toolbar>
+<mat-card-content class="container" >
+    <div class="login" *ngIf="!signup">
+        <h2 class="text-center mat-h2"><b>Login</b></h2>
+        <br>
+
+        <div *ngIf="errorStatus" class="error">{{error}}</div>
+        <br>
+
+        <form class="example-form text-center" #loginform="ngForm">
+
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Username" #username required>
+            </mat-form-field>
+            <br>
+            <br>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" #password required>
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </mat-form-field>
+            <br><br><br>
+            <button mat-raised-button color="primary"  (click)="login(username.value,password.value)" class="example-full-width"  [disabled]="!loginform.valid">Log In</button>
+            <br>
+            <br>
+            <button mat-raised-button color="primary" (click)="signup=true;" class="example-full-width" >Sign Up</button>
+        </form>
+    </div>
+
+    <div class="login" *ngIf="signup">
+        <h2 class="text-center mat-h2"><b>Sign Up</b></h2>
+        <div *ngIf="errorStatus" class="error">{{error}}</div>
+
+        <form class="example-form text-center" #SignUpForm="ngForm">
+
+
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Username" #username required>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Email"
+                       [errorStateMatcher]="matcher" #email required>
+                <mat-error *ngIf="email.invalid" class="error" align="left">{{getErrorMessage()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" #password required>
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Confirm Password" [type]="hide ? 'password' : 'text'" #confirmpassword required>
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-form-field>
+            <br>
+            <br>
+            <button mat-raised-button color="primary" (click)="SignUp(username.value,password.value,email.value,confirmpassword.value)" [disabled]="!SignUpForm.valid" class="example-full-width" >Sign Up</button>
+            <br><br>
+            <button mat-raised-button color="primary"  (click)="signup = false; errorStatus = false;" class="example-full-width">Log In</button>
+        </form>
+    </div>
+
+</mat-card-content>

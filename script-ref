@@ -8,7 +8,7 @@ I0YB924COP64
 
 Algorithmia
 --------------------------------
-
+key :REDft56hjk*(23dafv#$5^7)lkSDe
 
 Commands to run on server start
 -------------------------------------------------------------------------------
@@ -21,6 +21,9 @@ nohup node server.js & 14355
 sudo kill 11724
 
 lt --subdomain friday-gclistings --port 8092 &
+
+
+sudo chown -R $USER:$USER /home/minal/Documents/Abhinab_project/CordovaMobileApp
 
 Check public IP linux:
 --------------------------------------------------------------------------------
@@ -87,6 +90,15 @@ Check public IP linux:
 dig +short myip.opendns.com @resolver1.opendns.com
 
 Abhinab Mohanty
+
+
+
+buil APk
+-----------------------------------------------
+sudo ng build --prod --base-href . --output-path ../CordovaMobileApp/www/
+
+sudo cordova build android
+
 
 
 

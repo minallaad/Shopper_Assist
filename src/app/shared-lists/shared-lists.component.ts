@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,OnDestroy} from '@angular/core';
 import {MatIconRegistry} from "@angular/material";
 import {HttpClient} from "@angular/common/http";
 import {KafkaService} from "../services/kafka.services";
 import {DialogBoxComponent} from "../dialog-box/dialog-box.component";
 import {userList} from "../Models/userList.model";
-import {AuthService} from "../services/auth.service";
 import {Item} from "../Models/list.model";
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -16,15 +15,16 @@ import {ConfirmationDialogBoxComponent} from "../confirmation-dialog-box/confirm
 
 
 
+
 @Component({
   selector: 'app-shared-lists',
   templateUrl: './shared-lists.component.html',
   styleUrls: ['./shared-lists.component.css']
 })
-export class SharedListsComponent implements OnInit {
+export class SharedListsComponent implements OnInit ,OnDestroy{
 
 
-    constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private bottomSheet: MatBottomSheet, private kafkaService: KafkaService,private  http:HttpClient,private auth: AuthService,public snackBar: MatSnackBar,private dialog: MatDialog,private globals: Globals) {
+    constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer , private bottomSheet: MatBottomSheet, private kafkaService: KafkaService,private  http:HttpClient,public snackBar: MatSnackBar,private dialog: MatDialog,private globals: Globals) {
         // Comment out this method call if using
         // hash-based routing
 
@@ -46,7 +46,7 @@ export class SharedListsComponent implements OnInit {
 
         iconRegistry.addSvgIcon(
             'deleteItem',
-            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/recycle-bin.svg'));
+            sanitizer.bypassSecurityTrustResourceUrl('assets/Icons/round-delete-24px.svg'));
 
         iconRegistry.addSvgIcon(
             'disabled_stop_sharing',
@@ -63,11 +63,20 @@ export class SharedListsComponent implements OnInit {
     consent : boolean;
     sharing_status: boolean = false;
     loading_icon :boolean = false;
+    loggedIn:boolean=false;
 
     ngOnInit() {
         console.log("in list");
 
 
+        if(JSON.parse(localStorage.getItem('sharedList')))
+            this.list = JSON.parse(localStorage.getItem('sharedList'));
+
+        this.loggedIn = this.globals.loggedIn;
+
+
+        if(this.globals.loggedIn && this.globals.myUserName)
+            this.kafkaService.addUser(this.globals.myUserName);
 
         this.connection = this.kafkaService.getMessage().subscribe(message =>{
             console.log(message.toString().includes("wants to share"));
@@ -78,7 +87,7 @@ export class SharedListsComponent implements OnInit {
             {
                 this.myusername = message.toString().split(' ',4)[0];
 
-                if(this.myusername === (localStorage.getItem('username')))
+                if(this.myusername === this.globals.myUserName)
                 {
                     this.globals.shared_status = (message.toString().split(' ',4)[3] === "true");
                     this.sharing_status = this.globals.shared_status;
@@ -136,6 +145,7 @@ export class SharedListsComponent implements OnInit {
 
 
         })
+        console.log(this.connection);
         console.log('End dialogref');
     }
 
@@ -166,7 +176,7 @@ export class SharedListsComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe( result=> {
 
-
+            this.globals.usersList.userName = localStorage.getItem('username');
             if (this.globals.sharing_status) {
                 this.loading_icon = true;
                 console.log(this.globals.usersList);
@@ -211,6 +221,11 @@ export class SharedListsComponent implements OnInit {
 
     }
     ngOnDestroy(){
+        localStorage.setItem('sharedList',JSON.stringify(this.list));
+
+        if(this.globals.usersList)
+            localStorage.setItem('usersSharingWith',JSON.stringify(this.globals.usersList));
+
         console.log("List destroyed");
     }
 
@@ -232,7 +247,7 @@ export class SharedListsComponent implements OnInit {
 
         if( flag === 0)
         {
-            const item = new Item(itemName , true,localStorage.getItem('username'));
+            const item = new Item(itemName , true,this.globals.myUserName);
             this.list.push(item);
             console.log(this.list);
         }
@@ -278,6 +293,7 @@ export class SharedListsComponent implements OnInit {
                     console.log(JSON.stringify(message) !== JSON.stringify([]));
                     if (JSON.stringify(message) !== JSON.stringify([])) {
                         this.globals.usersList.users = message;
+
 
                         this.globals.sharing_status = true;
                         this.sharing_status = this.globals.sharing_status;
@@ -331,7 +347,7 @@ export class SharedListsComponent implements OnInit {
             console.log(this.list[i].name);
             if(this.list[i].name === item) {
                 this.list[i].isPresent = false;
-                this.list[i].updatedBy = localStorage.getItem('username');
+                this.list[i].updatedBy = this.globals.myUserName;
                 console.log(this.list[i].isPresent);
                 break;
             }
@@ -358,5 +374,8 @@ export class SharedListsComponent implements OnInit {
             this.kafkaService.stopSharing();
         }
     }
+
+
+
 
 }

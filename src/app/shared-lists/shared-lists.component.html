@@ -13,9 +13,9 @@
 
 <!--</mat-card-content>-->
 
-
-<div  *ngIf="loading_icon"  class="loader"><img  src="../../assets/gifs/grocery_assist.gif" /></div>
-<mat-card-content class="container" *ngIf="auth.isAuthenticated() && !loading_icon">
+<mat-spinner  *ngIf="loading_icon"  class="loader">
+</mat-spinner>
+<mat-card-content class="container" *ngIf="!loading_icon">
   <form class="example-form">
     <!--<mat-form-field class="example-full-width">-->
     <input matInput placeholder="Enter Item" #box (keyup.enter)="addItemtoList(box.value); box.value =' '"  class="form-control" >
@@ -23,8 +23,6 @@
     <mat-icon *ngIf="!sharing_status && !shared_status" matTooltip="Share list by adding users" class="stop_sharing" aria-label="Example icon-button with a heart icon" svgIcon="disabled_stop_sharing"></mat-icon>
     <mat-icon *ngIf="sharing_status || shared_status" matTooltip="Share list by adding users"(click)="addMoreUser()" class="add_user" aria-label="Example icon-button with a heart icon" svgIcon="add_user"></mat-icon>
     <mat-icon *ngIf="sharing_status || shared_status" matTooltip="Share list by adding users" class="stop_sharing" (click)="stop_sharing()" aria-label="Example icon-button with a heart icon" svgIcon="stop_sharing"></mat-icon>
-
-    <!--</mat-form-field>-->
   </form>
   <br>
   <div *ngFor="let item of list" class="list-group">
@@ -34,8 +32,9 @@
           <b>{{item.name}}</b>
         </h4>
       </mat-checkbox>
-      <h6 class="updated_by">{{item.updatedBy}} updated</h6>
       <mat-icon  matTooltip="Share list by adding users" class="delete" (click)="deleteItem(item)" aria-label="Example icon-button with a heart icon" svgIcon="deleteItem"></mat-icon>
+      <h6 class="updated_by" *ngIf="item.updatedBy">{{item.updatedBy}} updated</h6>
+
     </mat-card>
     <mat-card *ngIf="!item.isPresent" ng-model ="item.name" >
       <mat-checkbox [checked]="true" (click)="addItemtoList(item.name)">
@@ -43,15 +42,16 @@
           <s>{{item.name}}</s>
         </h4>
         </mat-checkbox>
-      <h6 class="updated_by">{{item.updatedBy}} updated</h6>
       <mat-icon  matTooltip="Share list by adding users" class="delete" (click)="deleteItem(item)" aria-label="Example icon-button with a heart icon" svgIcon="deleteItem"></mat-icon>
+      <h6 class="updated_by" *ngIf="item.updatedBy">{{item.updatedBy}} updated</h6>
     </mat-card>
 
 
   </div>
 
 </mat-card-content>
-<button mat-fab class="app-fab--absolute" matTooltip="Save your list for future use" *ngIf="auth.isAuthenticated()">
+<button mat-fab class="app-fab--absolute" matTooltip="Save your list for future use">
   <mat-icon  (click)="openDialog()" aria-label="Example icon-button with a heart icon" svgIcon="ShareList" ></mat-icon>
 </button>
+
 

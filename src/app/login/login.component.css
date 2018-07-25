@@ -1,0 +1,59 @@
+.mat-toolbar {
+    position: fixed;
+    height: 21%;
+}
+.mat-title{
+    text-align: center;
+    padding-left: 27%;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+.login{
+    padding-top:40%;
+}
+
+.error{
+    font-size: smaller;
+    color: red;
+    text-align: center;
+}
+@media only screen and (min-width:750px) {
+    /* For tablets: */
+    .login{
+        padding-top:40%;
+        padding-left: 15%;
+    }
+    .mat-title{
+        text-align: center;
+        padding-left: 35%;
+    }
+    .mat-h2{
+        padding-right: 25%;
+        font-size: x-large;
+    }
+}
+
+@media only screen and (min-width:1024px) {
+    /* For tablets: */
+    .login{
+        padding-top:50%;
+        padding-left: 25%;
+    }
+    .mat-title{
+        text-align: center;
+        padding-left: 40%;
+    }
+    .mat-h2{
+        padding-right: 25%;
+        font-size: x-large;
+    }
+}

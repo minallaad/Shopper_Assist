@@ -1,5 +1,6 @@
 import { Component, OnInit , Inject} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {Globals} from "../globals";
 
 @Component({
   selector: 'app-confirmation-dialog-box',
@@ -9,9 +10,10 @@ import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class ConfirmationDialogBoxComponent implements OnInit {
 
 
+    loggedIn:boolean=false;
     constructor(
         public dialogRef: MatDialogRef<ConfirmationDialogBoxComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
+        @Inject(MAT_DIALOG_DATA) public data: any,private globals: Globals) { }
 
     onNoClick(): void {
         this.dialogRef.close();
@@ -19,6 +21,8 @@ export class ConfirmationDialogBoxComponent implements OnInit {
 
     ngOnInit()
     {
+
+        this.loggedIn = this.globals.loggedIn;
 
     }
 

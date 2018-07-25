@@ -35,13 +35,14 @@ export class DialogBoxComponent implements OnInit {
     selectable: boolean = true;
     removable: boolean = true;
     addOnBlur: boolean = true;
+    loggedIn: boolean=false;
 
     // Enter, comma
     separatorKeysCodes = [ENTER, COMMA];
 
     constructor( iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,
     public dialogRef: MatDialogRef<DialogBoxComponent>,  @Inject(MAT_DIALOG_DATA) public data: any,private globals: Globals,public snackBar: MatSnackBar,private kafkaService: KafkaService) {
-        this.username =localStorage.getItem('username');
+        this.username =this.globals.myUserName;
 
 
         iconRegistry.addSvgIcon(
@@ -82,7 +83,7 @@ export class DialogBoxComponent implements OnInit {
      ngOnInit()
      {
 
-
+         this.loggedIn=this.globals.loggedIn;
 
      }
 

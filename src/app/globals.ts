@@ -7,5 +7,7 @@ export class Globals {
     sharing_status:boolean = false;
     shared_status:boolean = false;
     username:string;
+    myUserName:string;
+    loggedIn:boolean=false;
     users = [];
 }

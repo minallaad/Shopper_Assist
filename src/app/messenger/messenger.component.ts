@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material';
-import { AuthService } from '../services/auth.service';
+import {KafkaService} from "../services/kafka.services";
+import {Globals} from "../globals";
 
 @Component({
   selector: 'app-messenger',
@@ -12,7 +13,8 @@ import { AuthService } from '../services/auth.service';
 export class MessengerComponent implements OnInit {
 
   Messages = [];
-  constructor( iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,private  http:HttpClient,private auth: AuthService) {
+  loggedIn:boolean=false;
+  constructor( iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,private  http:HttpClient,private kafkaService: KafkaService,private globals: Globals) {
 
 
 
@@ -24,6 +26,10 @@ export class MessengerComponent implements OnInit {
   }
 
   ngOnInit() {
+
+      this.loggedIn = this.globals.loggedIn;
+      if(this.globals.myUserName)
+        this.kafkaService.addUser(this.globals.myUserName);
   }
     sendMessage(message :string)
     {

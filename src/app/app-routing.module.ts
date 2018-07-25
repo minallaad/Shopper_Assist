@@ -4,25 +4,28 @@ import { ListComponent } from './list/list.component';
 import {MessengerComponent} from "./messenger/messenger.component";
 import {StoresComponent} from "./stores/stores.component";
 import {RecipesComponent} from "./recipes/recipes.component";
-import {AuthGuard} from "./services/auth.guard";
 import {SharedListsComponent} from "./shared-lists/shared-lists.component";
 import {LoginComponent} from "./login/login.component";
+import {ChangePasswordComponent} from "./change-password/change-password.component";
+import {MyProfileComponent} from "./my-profile/my-profile.component";
 
 const appRoutes: Routes = [
 
-  //{path: '', redirectTo: 'list', pathMatch: 'full',canActivate: [AuthGuard]},
-  {path: 'shared-list', component:SharedListsComponent ,canActivate: [AuthGuard]} ,
-    {path: 'login', component:LoginComponent },
-  {path: 'list', component: ListComponent,canActivate: [AuthGuard] },
-  {path: 'Messenger', component: MessengerComponent,canActivate: [AuthGuard] },
-  {path: 'Stores-near-me', component: StoresComponent,canActivate: [AuthGuard] },
-  {path: 'Recipe', component: RecipesComponent,canActivate: [AuthGuard] }
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {path: 'shared-list', component:SharedListsComponent } ,
+  {path: 'login', component:LoginComponent },
+  {path: 'list', component: ListComponent },
+  {path: 'change-password', component: ChangePasswordComponent },
+  {path: 'myProfile', component: MyProfileComponent },
+  {path: 'Messenger', component: MessengerComponent},
+  {path: 'Stores-near-me', component: StoresComponent},
+  {path: 'Recipe', component: RecipesComponent }
 ];
 
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes, { enableTracing: false } )],
+  imports: [RouterModule.forRoot(appRoutes, {  useHash: true } )],
   exports: [RouterModule]
 })
 

@@ -13,23 +13,25 @@
 <!--</mat-dialog-actions>-->
 
 
-<mat-form-field class="demo-chip-list">
-  <mat-chip-list #chipList>
-    <input placeholder="Enter UserName"
-           [matChipInputFor]="chipList"
-           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-           [matChipInputAddOnBlur]="addOnBlur"
-           (matChipInputTokenEnd)="add($event)" />
-  </mat-chip-list>
-</mat-form-field>
 
-<mat-chip *ngFor="let user of users" [selectable]="selectable"
-          [removable]="removable" (removed)="remove(user)">
-  {{user}}
-  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-</mat-chip>
+  <mat-form-field class="demo-chip-list">
+    <mat-chip-list #chipList>
+      <input placeholder="Enter UserName"
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)" />
+    </mat-chip-list>
+  </mat-form-field>
 
-<mat-dialog-actions>
-<button mat-button class="mat-accent" (click)="Confirm()"  tabindex="1">Confirm</button>
-<!--<button mat-button class="mat-accent"  (click)="Cancel()"   tabindex="-1">Cancel</button>-->
-</mat-dialog-actions>
+  <mat-chip *ngFor="let user of users" [selectable]="selectable"
+            [removable]="removable" (removed)="remove(user)">
+    {{user}}
+    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+  </mat-chip>
+
+  <mat-dialog-actions>
+  <button mat-button class="mat-accent" (click)="Confirm()"  tabindex="1">Confirm</button>
+  <!--<button mat-button class="mat-accent"  (click)="Cancel()"   tabindex="-1">Cancel</button>-->
+  </mat-dialog-actions>
+

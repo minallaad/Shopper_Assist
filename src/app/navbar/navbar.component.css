@@ -1,5 +1,5 @@
 .sidenav-container {
-  height: 100%;
+
 }
 
 .sidenav {
@@ -18,5 +18,9 @@ app-navbar {
 }
 
 .mat-elevation-z6{
-  position: relative;
+  width: 100%;
+}
+
+.mat-toolbar{
+
 }
