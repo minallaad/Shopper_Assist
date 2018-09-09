@@ -40,11 +40,11 @@ export class LoginComponent implements OnInit {
           this.errorStatus = true ;
           this.error = 'Email is required. Please enter email';
       }
-      else if (email !== '' )
-    {
-        this.errorStatus = true ;
-        this.error = 'Invalid email. Please enter again.';
-    }
+    //   else if (email !== '' )
+    // {
+    //     this.errorStatus = true ;
+    //     this.error = 'Invalid email. Please enter again.';
+    // }
       else if(isNullOrUndefined(password) || password === '')
       {
           this.errorStatus = true ;
@@ -63,10 +63,13 @@ export class LoginComponent implements OnInit {
         if(username && password && email && password === confirmpassword)
         {
             console.log("Inside signup");
-            this.loginService.SignUp(username, password, email,confirmpassword) .subscribe(data => {
+            this.loginService.SignUp(username, password, email,confirmpassword).subscribe((data) => {
                 console.log(data);
+                console.log("sign up successfully");
                 this.signup=false;
             },(error)=>{
+                console.log(error);
+
                 if (error['status'] === 400) {
                     localStorage.clear();
                     this.errorStatus=true;

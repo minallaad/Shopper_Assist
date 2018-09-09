@@ -12,7 +12,8 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'
 export class LoginService {
 
   //private url = 'http://35.233.233.84:8092';
-    private url = 'http://localhost:8092'
+  private url = 'http://localhost:8092';
+    //private url ='http://49139cea.ngrok.io';
     userList: AngularFireList<any>;
     user:any;
 
